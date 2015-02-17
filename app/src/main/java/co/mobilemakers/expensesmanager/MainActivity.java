@@ -1,5 +1,6 @@
 package co.mobilemakers.expensesmanager;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.Button;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -59,7 +61,18 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
+
+            //test quitar luego
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
+                    final String EVENT_TITLE = "EVENT_TITLE";
+                    Intent intent = new Intent(getActivity(),EventDescriptionActivity.class);
+                    intent.putExtra(EVENT_TITLE,"Shark's Diving"); //data is a string variable holding some value.
+                    startActivity(intent);
+
+
+            //fin quitar
+
             return rootView;
         }
     }
