@@ -17,5 +17,16 @@
     <string name="edit_text_price_string">Price</string>
     <string name="AddBill">Add Bill</string>
     <string name="button_add">Add</string>
+    <string name="title_activity_create_event">CreateEventActivity</string>
+    <string name="edit_text_event_name_hint">Name of the event</string>
+    <string name="edit_text_event_description_hint">Description (optional)</string>
+    <string name="text_view_friends_title">Friends</string>
+    <string name="button_add_friend_event">+</string>
+    <string name="button_create_event">Done</string>
+    <string name="title_activity_friends">FriendsActivity</string>
+    <string name="action_bar_create_event_title">Create Event</string>
+    <string name="action_bar_friends_title">Friends</string>
+    <string name="text_view_event_name">Event name</string>
+    <string name="text_view_event_description">Event description</string>
 
 </resources>

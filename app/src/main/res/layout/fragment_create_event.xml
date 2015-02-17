@@ -1,0 +1,56 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="16dp"
+                    android:orientation="vertical"
+                    tools:context="co.mobilemakers.expensesmanager.CreateEventActivity.CreateEventFragment"
+    >
+
+
+    <EditText   android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_text_event_name"
+                android:layout_gravity="center_horizontal"
+                android:hint="@string/edit_text_event_name_hint"
+                android:gravity="center"/>
+
+    <EditText   android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_text_event_description"
+                android:layout_gravity="center_horizontal"
+                android:hint="@string/edit_text_event_description_hint"
+                android:gravity="center"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
+        <TextView   android:id="@+id/text_view_friends_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/text_view_friends_title"/>
+
+        <Button android:id="@+id/button_add_friend_event"
+                android:layout_width="56dp"
+                android:layout_height="wrap_content"
+                android:text="@string/button_add_friend_event"
+                android:background="@drawable/button_style"/>
+    </LinearLayout>
+
+    <ListView   android:id="@android:id/list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+    <Button android:id="@+id/button_create_event"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_create_event"
+            android:layout_gravity="right"
+            android:enabled="false"/>
+
+</LinearLayout>

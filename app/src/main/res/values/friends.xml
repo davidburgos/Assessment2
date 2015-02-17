@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="friends">
+        <item>David Burgos</item>
+        <item>Juan Ramirez</item>
+        <item>Jorge Ortiz</item>
+        <item>Diana Perez</item>
+    </string-array>
+</resources>

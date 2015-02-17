@@ -1,17 +1,27 @@
 package co.mobilemakers.expensesmanager;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+
+import java.util.ArrayList;
 
 
-public class EventFragment extends Fragment {
+public class EventFragment extends ListFragment {
 
+    final static Integer REQUEST_CODE_CREATE_EVENT = 1;
+    ArrayList<String> mEvents;
+    ArrayAdapter<String> mAdapterEvents;
 
     public EventFragment() {
     }
@@ -29,10 +39,36 @@ public class EventFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-
-        return inflater.inflate(R.layout.fragment_event, container, false);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mEvents = new ArrayList<>();
+        mAdapterEvents = new ArrayAdapter<String>(getActivity(),
+                R.layout.list_item_events, R.id.text_view_event_name, mEvents);
+        setListAdapter(mAdapterEvents);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id){
+            case R.id.menu_event_fragment_add:
+                Intent intent = new Intent(getActivity(), CreateEventActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_CREATE_EVENT );
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == getActivity().RESULT_OK){
+            if(requestCode == REQUEST_CODE_CREATE_EVENT){
+                String eventName = (String)data.getExtras().get("EventName");
+                String eventDesc = (String)data.getExtras().get("EventDescription");
+                mEvents.add(eventName);
+                mAdapterEvents.notifyDataSetChanged();
+            }
+        }
+    }
 }
