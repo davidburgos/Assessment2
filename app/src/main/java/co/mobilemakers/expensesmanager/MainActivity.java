@@ -65,9 +65,9 @@ public class MainActivity extends ActionBarActivity {
             //test quitar luego
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-                    final String EVENT_TITLE = "EVENT_TITLE";
+                    final String EVENT_NAME = "EVENT_NAME";
                     Intent intent = new Intent(getActivity(),EventDescriptionActivity.class);
-                    intent.putExtra(EVENT_TITLE,"Shark's Diving"); //data is a string variable holding some value.
+                    intent.putExtra(EVENT_NAME,"Shark's Diving"); //data is a string variable holding some value.
                     startActivity(intent);
 
 

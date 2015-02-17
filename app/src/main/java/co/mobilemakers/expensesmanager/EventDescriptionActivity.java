@@ -1,12 +1,15 @@
 package co.mobilemakers.expensesmanager;
 
+import android.app.Activity;
 import android.app.ListFragment;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +21,7 @@ import java.util.List;
 
 
 public class EventDescriptionActivity extends ActionBarActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +61,12 @@ public class EventDescriptionActivity extends ActionBarActivity {
      * A placeholder fragment containing a simple view.
      */
     public static class EventDescriptionFragment extends Fragment {
+        public final String LOG_TAG = getClass().getSimpleName();
 
-        private  final String EVENT_TITLE = "EVENT_TITLE";
+        public static final int REQUEST_CODE = 0;
+        public static String EVENT_NAME = "EVENT_NAME";
+        private String eventName;
+
         List<EventDescriptionItem> eventDescriptionList = new ArrayList<>();
         ItemListAdapter mAdapter;
 
@@ -69,8 +77,8 @@ public class EventDescriptionActivity extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_event_description, container, false);
+            setHasOptionsMenu(true);
             SetActionBarTitle();
-
             TextView textViewTotal = (TextView)rootView.findViewById(R.id.text_view_sum_invoices);
 
 /* TODO remove fake data. */
@@ -90,11 +98,57 @@ public class EventDescriptionActivity extends ActionBarActivity {
             return rootView;
         }
 
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            int menuId = item.getItemId();
+            Boolean handled=false;
+            switch (menuId){
+                case R.id.add_Item:
+                    /*Intent intent = new Intent(getActivity(),NewInvoiceActivity.class);
+                    intent.putExtra(EVENT_NAME,eventName);
+                    startActivityForResult(intent, REQUEST_CODE);*/
+                    mAdapter.add(new EventDescriptionItem("Beers Added","Juan Ramirez Paid $200","You Owe $70.000") );
+                    Log.d(LOG_TAG,"CLICK ON ADD BUTTON");
+                    handled = true;
+                    break;
+            }
+            if(!handled)
+            {
+                handled = super.onOptionsItemSelected(item);
+            }
+
+            return handled;
+        }
+
+        @Override
+        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+            if (requestCode == REQUEST_CODE)
+            {
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+                        Log.d(LOG_TAG,"regreso de NewInvoiceActivity");
+                        //data.getStringExtra(EditContactActivity.FIRSTNAME)
+                        //data.getStringExtra(EditContactActivity.FIRSTNAME)
+                        mAdapter.add(new EventDescriptionItem("Beers Added","Juan Ramirez Paid $200","You Owe $70.000") );
+                        break;
+                }
+
+            }
+        }
+
         private void SetActionBarTitle() {
 
             String eventTitle = "DefaultTitle";
-            eventTitle = getActivity().getIntent().getStringExtra(EVENT_TITLE);
+            eventTitle = getActivity().getIntent().getStringExtra(EVENT_NAME);
+            eventName = eventTitle;
             getActivity().setTitle(eventTitle);
+        }
+
+        @Override
+        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+            super.onCreateOptionsMenu(menu, inflater);
+            inflater.inflate(R.menu.menu_event_description_fragment,menu);
         }
     }
 }
