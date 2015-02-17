@@ -8,5 +8,14 @@
     <string name="title_summary_expenses">Summary Expenses</string>
     <string name="title_event_fragment">Events</string>
     <string name="menu_title_event_add">Add Event</string>
+    <string name="invoices_title">you debt:</string>
+    <string name="zero_value">0</string>
+    <string name="Add">Add</string>
+    <string name="title_activity_event_description">Title</string>
+    <string name="title_activity_new_invoice">NewInvoiceActivity</string>
+    <string name="edit_text_product_service">Product / Service bought</string>
+    <string name="edit_text_price_string">Price</string>
+    <string name="AddBill">Add Bill</string>
+    <string name="button_add">Add</string>
 
 </resources>

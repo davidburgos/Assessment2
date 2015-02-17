@@ -104,11 +104,11 @@ public class EventDescriptionActivity extends ActionBarActivity {
             Boolean handled=false;
             switch (menuId){
                 case R.id.add_Item:
-                    /*Intent intent = new Intent(getActivity(),NewInvoiceActivity.class);
+                    Intent intent = new Intent(getActivity(),NewInvoiceActivity.class);
                     intent.putExtra(EVENT_NAME,eventName);
-                    startActivityForResult(intent, REQUEST_CODE);*/
-                    mAdapter.add(new EventDescriptionItem("Beers Added","Juan Ramirez Paid $200","You Owe $70.000") );
-                    Log.d(LOG_TAG,"CLICK ON ADD BUTTON");
+                    startActivityForResult(intent, REQUEST_CODE);
+                    //mAdapter.add(new EventDescriptionItem("Beers Added","Juan Ramirez Paid $200","You Owe $70.000") );
+                    //Log.d(LOG_TAG,"CLICK ON ADD BUTTON");
                     handled = true;
                     break;
             }
@@ -128,9 +128,9 @@ public class EventDescriptionActivity extends ActionBarActivity {
                 switch (resultCode) {
                     case Activity.RESULT_OK:
                         Log.d(LOG_TAG,"regreso de NewInvoiceActivity");
-                        //data.getStringExtra(EditContactActivity.FIRSTNAME)
-                        //data.getStringExtra(EditContactActivity.FIRSTNAME)
-                        mAdapter.add(new EventDescriptionItem("Beers Added","Juan Ramirez Paid $200","You Owe $70.000") );
+                        String price = data.getStringExtra(NewInvoiceActivity.PRICE);
+                        String service = data.getStringExtra(NewInvoiceActivity.SERVICE);
+                        mAdapter.add(new EventDescriptionItem(service,String.format("Juan Ramirez Paid $%s",price), "You Owe $70.000"));
                         break;
                 }
 
@@ -140,7 +140,8 @@ public class EventDescriptionActivity extends ActionBarActivity {
         private void SetActionBarTitle() {
 
             String eventTitle = "DefaultTitle";
-            eventTitle = getActivity().getIntent().getStringExtra(EVENT_NAME);
+            if( getActivity().getIntent().getStringExtra(EVENT_NAME)!=null)
+                eventTitle = getActivity().getIntent().getStringExtra(EVENT_NAME);
             eventName = eventTitle;
             getActivity().setTitle(eventTitle);
         }
