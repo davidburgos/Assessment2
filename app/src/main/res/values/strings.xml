@@ -30,6 +30,8 @@
     <string name="text_view_event_description">Event description</string>
     <string name="text_view_title_you_owe">You Owe</string>
     <string name="text_view_title_owed_to_you">Owed to you</string>
+    <string name="text_view_sum_invoices">Total</string>
+    <string name="action_bar_expenses_manager_title">Expenses Manager</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

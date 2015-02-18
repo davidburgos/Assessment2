@@ -31,6 +31,19 @@ public class DataBaseManager {
         return helper;
     }
 
+    public Friend getFriendById(int id)
+    {
+        Friend friend = null;
+        try {
+            friend = getHelper().getFriendDao().queryForId(id);
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return  friend;
+    }
+
     public List<Friend> getAllFriends()
     {
         List<Friend> friendList = null;
@@ -72,6 +85,16 @@ public class DataBaseManager {
             e1.printStackTrace();
         }
     }
+
+
+    public void  addEventFriend(EventFriend e){
+        try {
+            getHelper().getEventFriendDao().create(e);
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+    }
+
 
 
 

@@ -24,7 +24,7 @@ public class FriendsActivity extends ActionBarActivity {
     private void customizeActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(R.string.action_bar_friends_title);
-        actionBar.setIcon(R.drawable.ic_launcher);
+        actionBar.setIcon(R.drawable.ic_principal);
         actionBar.setDisplayShowHomeEnabled(true);
     }
 

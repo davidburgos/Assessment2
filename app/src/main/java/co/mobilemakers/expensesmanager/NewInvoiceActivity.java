@@ -2,6 +2,7 @@ package co.mobilemakers.expensesmanager;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -29,8 +30,9 @@ public class NewInvoiceActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_invoice);
-        SetActionBarTitle();
-        WireViewElements();
+        String eventName = (String)getIntent().getExtras().get(EVENT_NAME);
+        customizeActionBar(eventName);
+        wireUpViewElements();
         mButtonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,7 +46,14 @@ public class NewInvoiceActivity extends ActionBarActivity {
         checkFieldsForEmptyValues();
     }
 
-    private void WireViewElements() {
+    private void customizeActionBar(String eventName) {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(eventName);
+        actionBar.setIcon(R.drawable.ic_principal);
+        actionBar.setDisplayShowHomeEnabled(true);
+    }
+
+    private void wireUpViewElements() {
         mService = (EditText) findViewById(R.id.edit_text_product);
         mPrice= (EditText) findViewById(R.id.edit_text_price);
         mButtonAdd=(Button)findViewById(R.id.button_add);
@@ -101,14 +110,6 @@ public class NewInvoiceActivity extends ActionBarActivity {
         } else {
             mButtonAdd.setEnabled(true);
         }
-    }
-    private void SetActionBarTitle() {
-
-        String eventTitle = "DefaultTitle2";
-        if((String) getIntent().getSerializableExtra(EVENT_NAME)!=null)
-            eventTitle = getIntent().getStringExtra(EVENT_NAME);
-        Log.d(LOG_TAG, eventTitle);
-        setTitle(eventTitle);
     }
 
 }
