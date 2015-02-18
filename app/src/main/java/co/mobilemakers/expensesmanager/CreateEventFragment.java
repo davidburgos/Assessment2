@@ -29,7 +29,7 @@ public class CreateEventFragment extends ListFragment {
     EditText mEditTextEventDescription;
     Button mButtonCreateEvent;
     Button mButtonAddFriend;
-    ArrayList<String> mFriends;
+    ArrayList<String> mFriends,mFriendsId;
     ArrayAdapter<String> mAdapterFriends;
 
 
@@ -77,6 +77,13 @@ public class CreateEventFragment extends ListFragment {
         event.setDescription(mEditTextEventDescription.getText().toString());
         DataBaseManager.getInstance().addEvent(event);
 
+        for(int i = 0; i<mFriendsId.size();i++)
+        {
+            int id = Integer.parseInt(mFriendsId.get(i));
+            Friend friend = DataBaseManager.getInstance().getFriendById(id+1);
+            DataBaseManager.getInstance().addEventFriend(new EventFriend(event,friend));
+        }
+
         Friend friend = new Friend();
         friend.setName("David Burgos");
         friend.setEmail("david.burgos@globant.com");
@@ -89,6 +96,7 @@ public class CreateEventFragment extends ListFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mFriends = new ArrayList<>();
+        mFriendsId = new ArrayList<>();
         mAdapterFriends = new ArrayAdapter<String>(getActivity(),
                 R.layout.list_item_friends, R.id.text_view_friend,mFriends);
         setListAdapter(mAdapterFriends);
@@ -112,7 +120,9 @@ public class CreateEventFragment extends ListFragment {
         if(resultCode == getActivity().RESULT_OK){
             if(requestCode == REQUEST_CODE_FRIENDS){
                 String friendName = (String)data.getExtras().get(FriendsFragment.FRIEND_NAME);
+                Long  friendId = data.getExtras().getLong(FriendsFragment.FRIEND_ID);
                 mFriends.add(friendName);
+                mFriendsId.add(Long.toString(friendId));
                 mAdapterFriends.notifyDataSetChanged();
             }
         }

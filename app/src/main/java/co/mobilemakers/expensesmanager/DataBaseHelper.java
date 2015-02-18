@@ -23,6 +23,7 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
     // the DAO object we use to access the SimpleData table
     private Dao<Event, Integer> eventDao = null;
     private Dao<Friend, Integer> friendDao = null;
+    private Dao<EventFriend,Integer> eventFriendDao= null;
 
     public DataBaseHelper(Context context)
     {
@@ -35,6 +36,7 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
             Log.i(LOG_TAG, "CREATING DATABASE.");
             TableUtils.createTable(connectionSource, Event.class);
             TableUtils.createTable(connectionSource, Friend.class);
+            TableUtils.createTable(connectionSource, EventFriend.class);
 
         } catch (SQLException e) {
             Log.i(LOG_TAG,"ERROR CREATING DATABASE",e);
@@ -62,6 +64,17 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
             }
         }
         return eventDao;
+    }
+
+    public Dao<EventFriend, Integer> getEventFriendDao() {
+        if (null == eventFriendDao) {
+            try {
+                eventFriendDao = getDao(EventFriend.class);
+            }catch (java.sql.SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return eventFriendDao;
     }
 
 

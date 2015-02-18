@@ -52,4 +52,9 @@ public class Friend {
     public void setmEvent(Event mEvent) {
         this.mEvent = mEvent;
     }
+
+    public int getId() {
+        return _id;
+    }
+
 }
