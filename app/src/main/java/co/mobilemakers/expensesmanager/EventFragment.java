@@ -4,15 +4,11 @@ package co.mobilemakers.expensesmanager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
@@ -27,8 +23,8 @@ public class EventFragment extends ListFragment {
     public final static String EVENT_NAME = "EVENT_NAME";
     private final static String LOG_TAG = EventFragment.class.getSimpleName();
 
-    ArrayList<String> mEvents;
-    ArrayAdapter<String> mAdapterEvents;
+    ArrayList<Event> mEvents;
+    EventAdapter mAdapterEvents;
 
     public EventFragment() {
     }
@@ -48,29 +44,26 @@ public class EventFragment extends ListFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mEvents = new ArrayList<>();
-        PopulateEvents();
-        mAdapterEvents = new ArrayAdapter<String>(getActivity(),
-                R.layout.list_item_events, R.id.text_view_event_name, mEvents);
-        setListAdapter(mAdapterEvents);
+        populateEvents();
         addItemClickListener();
     }
 
-    private void PopulateEvents() {
+    private void populateEvents() {
+        mEvents = new ArrayList<>();
         DataBaseManager.init(getActivity());
-        List<Event> eventLists = DataBaseManager.getInstance().getAllEvents();
-        for (Event fr : eventLists) {
-            mEvents.add(fr.getName()+fr.getDescription());
-        }
+        mEvents = (ArrayList)DataBaseManager.getInstance().getAllEvents();
+        mAdapterEvents = new EventAdapter(getActivity(), mEvents);
+        setListAdapter(mAdapterEvents);
     }
+
 
     private void addItemClickListener() {
         getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), EventDescriptionActivity.class);
-                String eventName = (String)parent.getItemAtPosition(position);
-                intent.putExtra(EVENT_NAME, eventName);
+                Event event = (Event)parent.getItemAtPosition(position);
+                intent.putExtra(EVENT_NAME, event.getName());
                 startActivity(intent);
             }
         });
@@ -93,7 +86,7 @@ public class EventFragment extends ListFragment {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == getActivity().RESULT_OK){
             if(requestCode == REQUEST_CODE_CREATE_EVENT){
-                PopulateEvents();
+                populateEvents();
                 mAdapterEvents.notifyDataSetChanged();
             }
         }

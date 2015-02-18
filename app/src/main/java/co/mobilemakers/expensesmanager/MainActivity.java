@@ -26,6 +26,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        customizeActionBar();
         //TODO first run CreateFriends methods.
         //CreateFriends();
 
@@ -51,6 +52,14 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                             .setTabListener(this));
         }
     }
+
+    private void customizeActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(R.string.action_bar_expenses_manager_title);
+        actionBar.setIcon(R.drawable.ic_principal);
+        actionBar.setDisplayShowHomeEnabled(true);
+    }
+
 
     private void CreateFriends() {
 

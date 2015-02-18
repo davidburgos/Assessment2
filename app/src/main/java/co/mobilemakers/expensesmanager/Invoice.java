@@ -16,8 +16,8 @@ public class Invoice {
     @DatabaseField(generatedId = true, columnName = ID)private int _id;
     @DatabaseField(columnName = NAME)private String mName;
     @DatabaseField(columnName = PRICE)private int mPrice;
-    @DatabaseField(columnName = EVENT_ID)private int mEventId;
     @DatabaseField(columnName = FRIEND_ID)private int mFriendId;
+    @DatabaseField(columnName = EVENT_ID)private int mEventId;
 
     public String getName() {
         return mName;

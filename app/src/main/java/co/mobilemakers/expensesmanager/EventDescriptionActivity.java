@@ -15,7 +15,7 @@ public class EventDescriptionActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_description);
         String eventName = (String)getIntent().getExtras().get(EventFragment.EVENT_NAME);
-
+        customizeActionBar(eventName);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new EventDescriptionFragment())
@@ -26,7 +26,7 @@ public class EventDescriptionActivity extends ActionBarActivity {
     private void customizeActionBar(String eventName) {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(eventName);
-        actionBar.setIcon(R.drawable.ic_launcher);
+        actionBar.setIcon(R.drawable.ic_principal);
         actionBar.setDisplayShowHomeEnabled(true);
     }
     @Override

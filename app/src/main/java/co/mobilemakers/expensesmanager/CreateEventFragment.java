@@ -3,9 +3,7 @@ package co.mobilemakers.expensesmanager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-
-import com.j256.ormlite.dao.ForeignCollection;
 
 import java.util.ArrayList;
 
@@ -58,10 +54,7 @@ public class CreateEventFragment extends ListFragment {
             @Override
             public void onClick(View v) {
                 //TODO
-                CreateEvent();
-                /*Intent intent = new Intent();
-                intent.putExtra("EventName", mEditTextEventName.getText().toString());
-                intent.putExtra("EventDescription", mEditTextEventDescription.getText().toString());*/
+                createEvent();
                 Activity activity = getActivity();
                 activity.setResult(Activity.RESULT_OK, null);
                 activity.finish();
@@ -69,14 +62,12 @@ public class CreateEventFragment extends ListFragment {
         });
     }
 
-    private void CreateEvent() {
+    private void createEvent() {
         DataBaseManager.init(getActivity());
-
         Event event = new Event();
         event.setName(mEditTextEventName.getText().toString());
         event.setDescription(mEditTextEventDescription.getText().toString());
         DataBaseManager.getInstance().addEvent(event);
-
         Friend friend = new Friend();
         friend.setName("David Burgos");
         friend.setEmail("david.burgos@globant.com");
