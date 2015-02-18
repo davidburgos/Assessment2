@@ -1,8 +1,11 @@
 package co.mobilemakers.expensesmanager;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by diany_000 on 2/17/2015.
@@ -18,7 +21,7 @@ public class Event {
     @DatabaseField(generatedId = true, columnName = ID)private int _id;
     @DatabaseField(columnName = NAME)private String mName;
     @DatabaseField(columnName = DESCRIPTION)private String mDescription;
-    @DatabaseField(columnName = FRIENDS_ID)private int[] mFriends;
+    @ForeignCollectionField(columnName = FRIENDS_ID)private ForeignCollection<Friend> mFriends;
 
     public String getName() {
         return mName;
@@ -36,11 +39,15 @@ public class Event {
         mDescription = description;
     }
 
-    public int[] getFriends() {
-        return mFriends;
+    public List<Friend> getFriends() {
+        ArrayList<Friend> friendList = new ArrayList<Friend>();
+        for(Friend friend: mFriends){
+            friendList.add(friend);
+        }
+        return friendList;
     }
 
-    public void setFriends(int[] friends) {
+    public void setFriends(ForeignCollection<Friend> friends) {
         mFriends = friends;
     }
 }
