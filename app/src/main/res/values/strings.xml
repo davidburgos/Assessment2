@@ -31,4 +31,27 @@
     <string name="text_view_title_you_owe">You Owe</string>
     <string name="text_view_title_owed_to_you">Owed to you</string>
 
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+
+    <string name ="string_login_status_default_error">Unknown Error, please consult the developer.</string>
+    <string name ="string_login_status205">Error 205 Rest Content: The content of a system directory, such as the featured directory, has changed.</string>
+    <string name ="string_login_status304">Error 304 Not Modified: There was no new data to return.</string>
+    <string name ="string_login_status400">Error 400 Bad Request: The request was invalid.</string>
+    <string name ="string_login_status401">Error 401 Unauthorized: The user credentials are invalid or disabled.</string>
+    <string name ="string_login_status403">Error 403 Forbidden: The request is understood, but it has been refused.</string>
+    <string name ="string_login_status404">Error 404 Not Found: The URL requested is invalid or the resource requested does not exist.</string>
+    <string name ="string_login_status406">Error 406 Not Acceptable: The format of the request is invalid. This is returned by the search API.</string>
+    <string name ="string_login_status500">Error 500 Internal Server Error: Something is broken.</string>
+    <string name ="string_login_status501">Error 501 Not Implemented: The requested feature is not implemented or supported.</string>
+    <string name ="string_login_status502">Error 502 Bad Gateway: About.me is down or being upgraded.</string>
+    <string name ="string_login_status503">Error 503 Service Unavailable: The about.me servers are up, but overloaded with requests. Please try again later.</string>
+
+
 </resources>
