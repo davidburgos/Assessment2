@@ -57,11 +57,6 @@ public class CreateEventFragment extends ListFragment {
         mButtonCreateEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO
-                CreateEvent();
-                /*Intent intent = new Intent();
-                intent.putExtra("EventName", mEditTextEventName.getText().toString());
-                intent.putExtra("EventDescription", mEditTextEventDescription.getText().toString());*/
                 Activity activity = getActivity();
                 activity.setResult(Activity.RESULT_OK, null);
                 activity.finish();
@@ -83,13 +78,6 @@ public class CreateEventFragment extends ListFragment {
             Friend friend = DataBaseManager.getInstance().getFriendById(id+1);
             DataBaseManager.getInstance().addEventFriend(new EventFriend(event,friend));
         }
-
-        Friend friend = new Friend();
-        friend.setName("David Burgos");
-        friend.setEmail("david.burgos@globant.com");
-        friend.setPassword("123456");
-        friend.setmEvent(event);
-        DataBaseManager.getInstance().addFriend(friend);
     }
 
     @Override
