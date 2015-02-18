@@ -3,7 +3,8 @@ package co.mobilemakers.expensesmanager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,15 +21,15 @@ import java.util.List;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class EventDescriptionFragment extends Fragment {
+public class EventDescriptionFragment extends ListFragment {
     public final String LOG_TAG = getClass().getSimpleName();
 
     public static final int REQUEST_CODE = 0;
     public static String EVENT_NAME = "EVENT_NAME";
     private String eventName;
 
-    List<EventDescriptionItem> eventDescriptionList = new ArrayList<>();
-    ItemListAdapter mAdapter;
+    List<Invoice> mEventInvoices;
+    InvoiceAdapter mAdapter;
 
     public EventDescriptionFragment() {
     }
@@ -38,14 +39,22 @@ public class EventDescriptionFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_event_description, container, false);
         setHasOptionsMenu(true);
-        SetActionBarTitle();
-        TextView textViewTotal = (TextView)rootView.findViewById(R.id.text_view_sum_invoices);
-        mAdapter = new ItemListAdapter(getActivity(),eventDescriptionList);
-        ListView listView = (ListView)rootView.findViewById(R.id.list_view_invoices);
-        listView.setAdapter(mAdapter);
+        eventName = (String)getActivity().getIntent().getExtras().get(EventFragment.EVENT_NAME);
+        //TODO total all invoices
+ /*       TextView textViewTotal = (TextView)rootView.findViewById(R.id.text_view_sum_invoices);
         Log.d("total->", Integer.toString(mAdapter.total));
-        textViewTotal.setText("Total Invoices: $"+Integer.toString(mAdapter.total));
+        textViewTotal.setText("Total Invoices: $"+Integer.toString(mAdapter.total));*/
         return rootView;
+    }
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        //TODO retrieve all the invoices from event
+        mEventInvoices = new ArrayList<>();
+        mAdapter = new InvoiceAdapter(getActivity(), mEventInvoices);
+        setListAdapter(mAdapter);
     }
 
     @Override
@@ -57,8 +66,6 @@ public class EventDescriptionFragment extends Fragment {
                 Intent intent = new Intent(getActivity(),NewInvoiceActivity.class);
                 intent.putExtra(EVENT_NAME,eventName);
                 startActivityForResult(intent, REQUEST_CODE);
-                //mAdapter.add(new EventDescriptionItem("Beers Added","Juan Ramirez Paid $200","You Owe $70.000") );
-                //Log.d(LOG_TAG,"CLICK ON ADD BUTTON");
                 handled = true;
                 break;
         }
@@ -77,24 +84,20 @@ public class EventDescriptionFragment extends Fragment {
         {
             switch (resultCode) {
                 case Activity.RESULT_OK:
-                    Log.d(LOG_TAG,"regreso de NewInvoiceActivity");
                     String price = data.getStringExtra(NewInvoiceActivity.PRICE);
                     String service = data.getStringExtra(NewInvoiceActivity.SERVICE);
-                    mAdapter.add(new EventDescriptionItem(service,String.format("Juan Ramirez Paid $%s",price), "You Owe $70.000"));
+                    Invoice invoice = new Invoice();
+                    invoice.setName(service);
+                    invoice.setPrice(Integer.parseInt(price));
+                    //mAdapter.add(new EventDescriptionItem(service,String.format("Juan Ramirez Paid $%s",price), "You Owe $70.000"));
+                    mEventInvoices.add(invoice);
+                    mAdapter.notifyDataSetChanged();
                     break;
             }
 
         }
     }
 
-    private void SetActionBarTitle() {
-
-        String eventTitle = "DefaultTitle";
-        if( getActivity().getIntent().getStringExtra(EVENT_NAME)!=null)
-            eventTitle = getActivity().getIntent().getStringExtra(EVENT_NAME);
-        eventName = eventTitle;
-        getActivity().setTitle(eventTitle);
-    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

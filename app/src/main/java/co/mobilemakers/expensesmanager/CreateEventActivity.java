@@ -24,7 +24,7 @@ public class CreateEventActivity extends ActionBarActivity {
     private void customizeActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(R.string.action_bar_create_event_title);
-        actionBar.setIcon(R.drawable.ic_launcher);
+        actionBar.setIcon(R.drawable.ic_principal);
         actionBar.setDisplayShowHomeEnabled(true);
     }
 
