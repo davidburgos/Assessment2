@@ -14,6 +14,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.j256.ormlite.dao.ForeignCollection;
+
 import java.util.ArrayList;
 
 /**
@@ -56,14 +58,31 @@ public class CreateEventFragment extends ListFragment {
             @Override
             public void onClick(View v) {
                 //TODO
-                Intent intent = new Intent();
+                CreateEvent();
+                /*Intent intent = new Intent();
                 intent.putExtra("EventName", mEditTextEventName.getText().toString());
-                intent.putExtra("EventDescription", mEditTextEventDescription.getText().toString());
+                intent.putExtra("EventDescription", mEditTextEventDescription.getText().toString());*/
                 Activity activity = getActivity();
-                activity.setResult(Activity.RESULT_OK, intent);
+                activity.setResult(Activity.RESULT_OK, null);
                 activity.finish();
             }
         });
+    }
+
+    private void CreateEvent() {
+        DataBaseManager.init(getActivity());
+
+        Event event = new Event();
+        event.setName(mEditTextEventName.getText().toString());
+        event.setDescription(mEditTextEventDescription.getText().toString());
+        DataBaseManager.getInstance().addEvent(event);
+
+        Friend friend = new Friend();
+        friend.setName("David Burgos");
+        friend.setEmail("david.burgos@globant.com");
+        friend.setPassword("123456");
+        friend.setmEvent(event);
+        DataBaseManager.getInstance().addFriend(friend);
     }
 
     @Override

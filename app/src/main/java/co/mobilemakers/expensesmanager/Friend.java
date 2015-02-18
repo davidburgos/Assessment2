@@ -11,11 +11,15 @@ public class Friend {
     public final static String NAME = "NAME";
     public final static String EMAIL = "EMAIL";
     public final static String PASSWORD = "PASSWORD";
+    public final static String EVENT = "EVENT";
 
     @DatabaseField(generatedId = true, columnName = ID)private int _id;
     @DatabaseField(columnName = NAME)private String mName;
     @DatabaseField(columnName = EMAIL)private String mEmail;
     @DatabaseField(columnName = PASSWORD)private String mPassword;
+    @DatabaseField(columnName = EVENT,
+                    foreign = true,
+                    foreignAutoRefresh = true) private Event mEvent;
 
     public String getName() {
         return mName;
@@ -39,5 +43,13 @@ public class Friend {
 
     public void setPassword(String password) {
         mPassword = password;
+    }
+
+    public Event getmEvent() {
+        return mEvent;
+    }
+
+    public void setmEvent(Event mEvent) {
+        this.mEvent = mEvent;
     }
 }

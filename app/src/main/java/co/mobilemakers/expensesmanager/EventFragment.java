@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class EventFragment extends ListFragment {
@@ -23,6 +25,8 @@ public class EventFragment extends ListFragment {
     public final static Integer REQUEST_CODE_CREATE_EVENT = 1;
     public final static Integer REQUEST_CODE_EVENT = 2;
     public final static String EVENT_NAME = "EVENT_NAME";
+    private final static String LOG_TAG = EventFragment.class.getSimpleName();
+
     ArrayList<String> mEvents;
     ArrayAdapter<String> mAdapterEvents;
 
@@ -45,10 +49,19 @@ public class EventFragment extends ListFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mEvents = new ArrayList<>();
+        PopulateEvents();
         mAdapterEvents = new ArrayAdapter<String>(getActivity(),
                 R.layout.list_item_events, R.id.text_view_event_name, mEvents);
         setListAdapter(mAdapterEvents);
         addItemClickListener();
+    }
+
+    private void PopulateEvents() {
+        DataBaseManager.init(getActivity());
+        List<Event> eventLists = DataBaseManager.getInstance().getAllEvents();
+        for (Event fr : eventLists) {
+            mEvents.add(fr.getName()+fr.getDescription());
+        }
     }
 
     private void addItemClickListener() {
@@ -80,9 +93,7 @@ public class EventFragment extends ListFragment {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == getActivity().RESULT_OK){
             if(requestCode == REQUEST_CODE_CREATE_EVENT){
-                String eventName = (String)data.getExtras().get("EventName");
-                String eventDesc = (String)data.getExtras().get("EventDescription");
-                mEvents.add(eventName);
+                PopulateEvents();
                 mAdapterEvents.notifyDataSetChanged();
             }
         }
