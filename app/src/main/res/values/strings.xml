@@ -28,5 +28,7 @@
     <string name="action_bar_friends_title">Friends</string>
     <string name="text_view_event_name">Event name</string>
     <string name="text_view_event_description">Event description</string>
+    <string name="text_view_title_you_owe">You Owe</string>
+    <string name="text_view_title_owed_to_you">Owed to you</string>
 
 </resources>
