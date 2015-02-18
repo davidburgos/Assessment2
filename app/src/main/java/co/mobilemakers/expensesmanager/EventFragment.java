@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
@@ -19,7 +20,9 @@ import java.util.ArrayList;
 
 public class EventFragment extends ListFragment {
 
-    final static Integer REQUEST_CODE_CREATE_EVENT = 1;
+    public final static Integer REQUEST_CODE_CREATE_EVENT = 1;
+    public final static Integer REQUEST_CODE_EVENT = 2;
+    public final static String EVENT_NAME = "EVENT_NAME";
     ArrayList<String> mEvents;
     ArrayAdapter<String> mAdapterEvents;
 
@@ -45,6 +48,19 @@ public class EventFragment extends ListFragment {
         mAdapterEvents = new ArrayAdapter<String>(getActivity(),
                 R.layout.list_item_events, R.id.text_view_event_name, mEvents);
         setListAdapter(mAdapterEvents);
+        addItemClickListener();
+    }
+
+    private void addItemClickListener() {
+        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), EventDescriptionActivity.class);
+                String eventName = (String)parent.getItemAtPosition(position);
+                intent.putExtra(EVENT_NAME, eventName);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
