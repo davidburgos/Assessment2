@@ -26,9 +26,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //TODO first run CreateFriends methods.
-        //CreateFriends();
-
+        populateFriendsTable();
+        customizeActionBar();
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
@@ -52,35 +51,32 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         }
     }
 
-    private void CreateFriends() {
+    private void customizeActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(R.string.action_bar_expenses_manager_title);
+        actionBar.setIcon(R.drawable.ic_principal);
+        actionBar.setDisplayShowHomeEnabled(true);
+    }
 
+    private void populateFriendsTable() {
         DataBaseManager.init(this);
-        Friend friend = new Friend();
-        friend.setName("Juan Ramirez");
-        friend.setEmail("juan.ramirez@globant.com");
-        friend.setPassword("123456");
-
-        Friend friend2 = new Friend();
-        friend2.setName("David Burgos");
-        friend2.setEmail("david.burgos@globant.com");
-        friend2.setPassword("123456");
-
-        Friend friend3 = new Friend();
-        friend3.setName("Diana Perez");
-        friend3.setEmail("diana.perez@globant.com");
-        friend3.setPassword("123456");
-
-        DataBaseManager.getInstance().addFriend(friend);
-        DataBaseManager.getInstance().addFriend(friend2);
-        DataBaseManager.getInstance().addFriend(friend3);
-        Log.d(LOG_TAG, "Friends Created");
-        final List<Friend> friendLists = DataBaseManager.getInstance().getAllFriends();
-         if(friendLists != null) {
-            for (Friend fr : friendLists) {
-                Log.d(LOG_TAG, fr.getName());
-                Log.d(LOG_TAG, fr.getEmail());
-                Log.d(LOG_TAG, fr.getPassword());
-            }
+        List<Friend> friends= DataBaseManager.getInstance().getAllFriends();
+        if(friends.size()<=0) {
+            Friend friend = new Friend();
+            friend.setName("david.burgos");
+            friend.setEmail("david.burgos@globant.com");
+            friend.setPassword("123456");
+            Friend friend2 = new Friend();
+            friend2.setName("juan.ramirez");
+            friend2.setEmail("juan.ramirez@globant.com");
+            friend2.setPassword("123456");
+            Friend friend3 = new Friend();
+            friend3.setName("diana.perez");
+            friend3.setEmail("diana.perez@globant.com");
+            friend3.setPassword("123456");
+            DataBaseManager.getInstance().addFriend(friend);
+            DataBaseManager.getInstance().addFriend(friend2);
+            DataBaseManager.getInstance().addFriend(friend3);
         }
     }
 

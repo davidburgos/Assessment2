@@ -20,12 +20,12 @@ public class EventFriend {
     @DatabaseField(foreign = true,columnName = EVENT)
     private Event mEevent;
 
-   public EventFriend(){}
+    public EventFriend(){}
 
-   public EventFriend(Event event,Friend friend){
+    public EventFriend(Event event,Friend friend){
         this.mEevent =event;
         this.mFriend = friend;
-   }
+    }
 
 
 

@@ -29,7 +29,7 @@ public class CreateEventFragment extends ListFragment {
     EditText mEditTextEventDescription;
     Button mButtonCreateEvent;
     Button mButtonAddFriend;
-    ArrayList<String> mFriends;
+    ArrayList<String> mFriends,mFriendsId;
     ArrayAdapter<String> mAdapterFriends;
 
 
@@ -57,11 +57,7 @@ public class CreateEventFragment extends ListFragment {
         mButtonCreateEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO
-                CreateEvent();
-                /*Intent intent = new Intent();
-                intent.putExtra("EventName", mEditTextEventName.getText().toString());
-                intent.putExtra("EventDescription", mEditTextEventDescription.getText().toString());*/
+                createEvent();
                 Activity activity = getActivity();
                 activity.setResult(Activity.RESULT_OK, null);
                 activity.finish();
@@ -69,26 +65,25 @@ public class CreateEventFragment extends ListFragment {
         });
     }
 
-    private void CreateEvent() {
+    private void createEvent() {
         DataBaseManager.init(getActivity());
-
         Event event = new Event();
         event.setName(mEditTextEventName.getText().toString());
         event.setDescription(mEditTextEventDescription.getText().toString());
         DataBaseManager.getInstance().addEvent(event);
-
-        Friend friend = new Friend();
-        friend.setName("David Burgos");
-        friend.setEmail("david.burgos@globant.com");
-        friend.setPassword("123456");
-        friend.setmEvent(event);
-        DataBaseManager.getInstance().addFriend(friend);
+        for(int i = 0; i<mFriendsId.size();i++)
+        {
+            int id = Integer.parseInt(mFriendsId.get(i));
+            Friend friend = DataBaseManager.getInstance().getFriendById(id+1);
+            DataBaseManager.getInstance().addEventFriend(new EventFriend(event,friend));
+        }
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mFriends = new ArrayList<>();
+        mFriendsId = new ArrayList<>();
         mAdapterFriends = new ArrayAdapter<String>(getActivity(),
                 R.layout.list_item_friends, R.id.text_view_friend,mFriends);
         setListAdapter(mAdapterFriends);
@@ -112,7 +107,9 @@ public class CreateEventFragment extends ListFragment {
         if(resultCode == getActivity().RESULT_OK){
             if(requestCode == REQUEST_CODE_FRIENDS){
                 String friendName = (String)data.getExtras().get(FriendsFragment.FRIEND_NAME);
+                Long  friendId = data.getExtras().getLong(FriendsFragment.FRIEND_ID);
                 mFriends.add(friendName);
+                mFriendsId.add(Long.toString(friendId));
                 mAdapterFriends.notifyDataSetChanged();
             }
         }
