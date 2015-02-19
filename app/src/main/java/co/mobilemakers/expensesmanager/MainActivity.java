@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 
 import java.util.List;
 import java.util.Locale;
@@ -17,8 +16,6 @@ import java.util.Locale;
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
 
     SectionsPagerAdapter mSectionsPagerAdapter;
-    private final static String LOG_TAG = MainActivity.class.getSimpleName();
-
 
     ViewPager mViewPager;
 
@@ -51,7 +48,12 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         }
     }
 
-    private void CreateFriends() {
+    private void customizeActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(R.string.action_bar_expenses_manager_title);
+        actionBar.setIcon(R.drawable.ic_principal);
+        actionBar.setDisplayShowHomeEnabled(true);
+    }
 
     private void populateFriendsTable() {
         DataBaseManager.init(this);
@@ -59,15 +61,15 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         if(friends.size()<=0) {
             Friend friend = new Friend();
             friend.setName("david.burgos");
-            friend.setEmail("david.burgos");
+            friend.setEmail("david.burgos@globant.com");
             friend.setPassword("123456");
             Friend friend2 = new Friend();
             friend2.setName("juan.ramirez");
-            friend2.setEmail("juan.ramirez");
+            friend2.setEmail("juan.ramirez@globant.com");
             friend2.setPassword("123456");
             Friend friend3 = new Friend();
             friend3.setName("diana.perez");
-            friend3.setEmail("diana.perez");
+            friend3.setEmail("diana.perez@globant.com");
             friend3.setPassword("123456");
             DataBaseManager.getInstance().addFriend(friend);
             DataBaseManager.getInstance().addFriend(friend2);

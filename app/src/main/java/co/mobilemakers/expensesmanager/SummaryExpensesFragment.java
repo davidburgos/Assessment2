@@ -11,24 +11,6 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
-/*
-public class SummaryExpensesFragment extends Fragment {
-
-    public SummaryExpensesFragment() {
-        // Required empty public constructor
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-
-        return inflater.inflate(R.layout.fragment_summary_expenses, container, false);
-    }
-
-
-}
-*/
-
-
     public class SummaryExpensesFragment extends Fragment
     {
         private Context mContext;
