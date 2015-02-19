@@ -45,11 +45,11 @@ public class Friend {
         mPassword = password;
     }
 
-    public Event getmEvent() {
+    public Event getEvent() {
         return mEvent;
     }
 
-    public void setmEvent(Event mEvent) {
+    public void setEvent(Event mEvent) {
         this.mEvent = mEvent;
     }
 
