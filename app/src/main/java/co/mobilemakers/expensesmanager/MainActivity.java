@@ -64,15 +64,15 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         if(friends.size()<=0) {
             Friend friend = new Friend();
             friend.setName("david.burgos");
-            friend.setEmail("david.burgos@globant.com");
+            friend.setEmail("david.burgos");
             friend.setPassword("123456");
             Friend friend2 = new Friend();
             friend2.setName("juan.ramirez");
-            friend2.setEmail("juan.ramirez@globant.com");
+            friend2.setEmail("juan.ramirez");
             friend2.setPassword("123456");
             Friend friend3 = new Friend();
             friend3.setName("diana.perez");
-            friend3.setEmail("diana.perez@globant.com");
+            friend3.setEmail("diana.perez");
             friend3.setPassword("123456");
             DataBaseManager.getInstance().addFriend(friend);
             DataBaseManager.getInstance().addFriend(friend2);
