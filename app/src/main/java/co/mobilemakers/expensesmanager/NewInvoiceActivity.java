@@ -64,7 +64,7 @@ public class NewInvoiceActivity extends ActionBarActivity {
                 {
                     Payment p = new Payment();
                     p.setPriceToPay(invoice.getPrice() / 3);
-                    p.setIsPay(false);
+                    p.setPay(false);
                     p.setFriendId(i+1);
                     paymentList.add(p);
                 }

@@ -40,7 +40,6 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Friend.class);
             TableUtils.createTable(connectionSource, EventFriend.class);
             TableUtils.createTable(connectionSource, Payment.class);
-            TableUtils.createTable(connectionSource, Payment.class);
             TableUtils.createTable(connectionSource, Invoice.class);
         } catch (SQLException e) {
             Log.i(LOG_TAG,"ERROR CREATING DATABASE",e);

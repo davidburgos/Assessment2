@@ -3,6 +3,7 @@ package co.mobilemakers.expensesmanager;
 import android.content.Context;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 
@@ -48,32 +49,6 @@ public class DataBaseManager {
         return  friend;
     }
 
-    public Friend getFriendById(String username){
-
-        Friend friend = null;
-        try {
-            Dao<Friend, Integer> dao = getHelper().getFriendDao();
-
-            if (dao != null){
-
-                QueryBuilder<Friend, Integer> queryBuilder = dao.queryBuilder();
-                queryBuilder.where().eq(Friend.EMAIL, username);
-                PreparedQuery<Friend> preparedQuery = queryBuilder.prepare();
-
-                List<Friend> friendList = dao.query(preparedQuery);
-
-                if(!friendList.isEmpty()){
-                    friend = friendList.get(friendList.size()-1);
-                }
-            }
-
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-        return  friend;
-    }
 
     public Friend getFriendById(String username){
 
