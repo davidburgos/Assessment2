@@ -19,9 +19,19 @@ public class Payment {
     @DatabaseField(columnName = IS_PAY)private boolean mIsPay;
     @DatabaseField(columnName = INVOICE,
                     foreign = true,
-                    foreignAutoRefresh = true,
-                    foreignAutoCreate = true)private Invoice mInvoice;
+                    foreignAutoRefresh = true)private Invoice mInvoice;
 
+
+    public Payment(){
+
+    }
+
+    public Payment(Invoice invoice, int friendId, int priceToPay, boolean isPay){
+        mInvoice = invoice;
+        mFriendId = friendId;
+        mPriceToPay = priceToPay;
+        mIsPay = isPay;
+    }
 
     public int getFriendId() {
         return mFriendId;

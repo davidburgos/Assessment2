@@ -53,23 +53,12 @@ public class NewInvoiceActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 DataBaseManager.init(getBaseContext());
-                ForeignCollection<Payment> paymentList = DataBaseManager.getInstance().getEmptyForeignCollection();
-                Invoice invoice = new Invoice();
-                invoice.setName(mService.getText().toString());
-                invoice.setPrice(Integer.parseInt(mPrice.getText().toString()));
-                invoice.setEventId(eventId);
-                //invoice.setFriendId(); --yo
+                Invoice invoice = addInvoiceToDB();
 
-                for(int i =0;i<3;i++)
-                {
-                    Payment p = new Payment();
-                    p.setPriceToPay(invoice.getPrice() / 3);
-                    p.setPay(false);
-                    p.setFriendId(i+1);
-                    paymentList.add(p);
-                }
-                invoice.setPayments(paymentList);
-                DataBaseManager.getInstance().addInvoice(invoice);
+                Payment payment1 = new Payment(invoice,1,123,false);
+                DataBaseManager.getInstance().addPayment(payment1);
+                Payment payment2 = new Payment(invoice,2,345,false);
+                DataBaseManager.getInstance().addPayment(payment2);
                 Intent intent = new Intent();
                 intent.putExtra(PRICE,invoice.getPrice());
                 intent.putExtra(SERVICE ,invoice.getName());
@@ -78,6 +67,14 @@ public class NewInvoiceActivity extends ActionBarActivity {
             }
         });
         checkFieldsForEmptyValues();
+    }
+
+    private Invoice addInvoiceToDB() {
+        Invoice invoice = new Invoice();
+        invoice.setName(mService.getText().toString());
+        invoice.setPrice(Integer.parseInt(mPrice.getText().toString()));
+        DataBaseManager.getInstance().addInvoice(invoice);
+        return invoice;
     }
 
 
