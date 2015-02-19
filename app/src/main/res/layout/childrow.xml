@@ -3,20 +3,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="fill_parent"
              android:layout_height="wrap_content"
-             android:paddingTop="0dip"
              android:layout_gravity="top"
-    >
+             android:gravity="center_vertical"
+             android:padding="16dp">
         <ImageView
             android:id="@+id/image"
-            android:layout_width="30dip"
-            android:layout_height="30dip"
-            android:layout_marginLeft="30dip"/>
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:src="@drawable/button_background"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="1" android:paddingTop="0dip" android:layout_gravity="top">
+            android:stretchColumns="1" android:paddingTop="0dip" android:layout_gravity="top"
+            android:layout_marginLeft="6dp">
                 <TextView
-                    android:id="@+id/text1"
+                    android:id="@+id/text_view_child_title"
                     style="@style/Base.TextAppearance.AppCompat.Button"
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
@@ -26,7 +27,7 @@
 
                     />
                 <TextView
-                    android:id="@+id/text"
+                    android:id="@+id/text_view_child_subtitle"
                     style="@style/AppTheme"
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"

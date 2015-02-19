@@ -5,5 +5,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity" >
-<!--TODO: define if we will use this selector, or actionbar tab //-->
+
     </android.support.v4.view.ViewPager>

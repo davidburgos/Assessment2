@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="co.mobilemakers.expensesmanager" >
-<uses-permission android:name="android.permission.INTERNET"></uses-permission>
+<uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_expenses"
@@ -9,7 +9,9 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".SplashWelcome"
-            android:label="@string/welcome_splash" >
+            android:label="@string/app_name" >
+            android:name=".LoginActivity"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
