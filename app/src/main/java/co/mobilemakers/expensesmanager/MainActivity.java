@@ -51,12 +51,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         }
     }
 
-    private void customizeActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(R.string.action_bar_expenses_manager_title);
-        actionBar.setIcon(R.drawable.ic_principal);
-        actionBar.setDisplayShowHomeEnabled(true);
-    }
+    private void CreateFriends() {
 
     private void populateFriendsTable() {
         DataBaseManager.init(this);
