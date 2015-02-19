@@ -27,7 +27,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //TODO first run CreateFriends methods.
-        //CreateFriends();
+        CreateFriends();
 
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -57,12 +57,12 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         DataBaseManager.init(this);
         Friend friend = new Friend();
         friend.setName("Juan Ramirez");
-        friend.setEmail("juan.ramirez@globant.com");
+        friend.setEmail("juan.ramirez");
         friend.setPassword("123456");
 
         Friend friend2 = new Friend();
         friend2.setName("David Burgos");
-        friend2.setEmail("david.burgos@globant.com");
+        friend2.setEmail("david.burgos");
         friend2.setPassword("123456");
 
         Friend friend3 = new Friend();
