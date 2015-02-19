@@ -55,6 +55,8 @@
     <string name ="string_login_status501">Error 501 Not Implemented: The requested feature is not implemented or supported.</string>
     <string name ="string_login_status502">Error 502 Bad Gateway: About.me is down or being upgraded.</string>
     <string name ="string_login_status503">Error 503 Service Unavailable: The about.me servers are up, but overloaded with requests. Please try again later.</string>
+    <string name="expenses_manager">Expenses Manager</string>
+    <string name="welcome_splash">Expenses Manager</string>
 
 
 </resources>
