@@ -23,6 +23,10 @@ public class Event {
     @DatabaseField(columnName = DESCRIPTION)private String mDescription;
     @ForeignCollectionField(columnName = FRIENDS_ID)private ForeignCollection<Friend> mFriends;
 
+    public int getId() {
+        return _id;
+    }
+
     public String getName() {
         return mName;
     }

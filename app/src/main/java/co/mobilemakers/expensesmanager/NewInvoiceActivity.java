@@ -2,6 +2,7 @@ package co.mobilemakers.expensesmanager;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -21,8 +22,10 @@ public class NewInvoiceActivity extends ActionBarActivity {
     public final static String PRICE = "PRICE";
     public final static String SERVICE = "SERVICE";
     public final static String EVENT_NAME ="EVENT_NAME";
+    public final static String EVENT_ID ="EVENT_ID";
 
     private String eventName;
+    private int eventId;
     private EditText mService,mPrice;
     private Button mButtonAdd;
 
@@ -30,16 +33,24 @@ public class NewInvoiceActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_invoice);
-        String eventName = (String)getIntent().getExtras().get(EVENT_NAME);
+        eventName = (String)getIntent().getExtras().get(EVENT_NAME);
+        eventId = getIntent().getExtras().getInt(EVENT_ID);
         customizeActionBar(eventName);
         wireUpViewElements();
         mButtonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.putExtra(PRICE, mPrice.getText().toString());
-                intent.putExtra(SERVICE ,mService.getText().toString());
-                setResult(Activity.RESULT_OK, intent);
+                Invoice invoice = new Invoice();
+                invoice.setName(mService.getText().toString());
+                invoice.setPrice(Integer.parseInt(mPrice.getText().toString()));
+                invoice.setEventId(eventId);
+               // invoice.setPayments();
+                DataBaseManager.init(getBaseContext());
+                DataBaseManager.getInstance().addInvoice(invoice);
+               /* Intent intent = new Intent();
+                intent.putExtra(PRICE,);
+                intent.putExtra(SERVICE ,);*/
+                setResult(Activity.RESULT_OK, null);
                 finish();
             }
         });

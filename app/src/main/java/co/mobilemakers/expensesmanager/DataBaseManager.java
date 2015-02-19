@@ -95,7 +95,12 @@ public class DataBaseManager {
         }
     }
 
-
-
+    public void  addInvoice(Invoice i){
+        try {
+            getHelper().getInvoiceDao().create(i);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
