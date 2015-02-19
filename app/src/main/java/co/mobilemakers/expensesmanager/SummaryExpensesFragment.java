@@ -4,6 +4,7 @@ package co.mobilemakers.expensesmanager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,25 +33,59 @@ public class SummaryExpensesFragment extends Fragment
             private LayoutInflater inflater;
             private String[] groups = { getString(R.string.text_view_title_you_owe),getString(R.string.text_view_title_owed_to_you)};
 
-            private String[][] children;
+            private List<Friend> FriendsIOwe = new ArrayList<>();
+            private List<Friend> FriendsOweMe = new ArrayList<>();
+
+            private int mAmountIOwe = 0, mAmountOwedToMe = 0;
 
             public SavedTabsListAdapter()
             {
                 inflater = LayoutInflater.from(mContext);
 
                 DataBaseManager.init(getActivity());
-                List<Friend> FriendList = DataBaseManager.getInstance().getAllFriends();
-                List<String> contents = new ArrayList<String>();
+                FriendsIOwe  = DataBaseManager.getInstance().getAllFriends();
+                FriendsOweMe = DataBaseManager.getInstance().getAllFriends();
 
-                if(FriendList != null){
-                    for(int x=0; x<groups.length;x++){
-                        for(Friend friend:FriendList){
-                            contents.add(friend.getName());
-                        }
-                      //  children[x][0] = contents.; //TODO: terminar
+                if(FriendsIOwe != null){
+                    for(Friend friend:FriendsIOwe){
+                        mAmountIOwe += friend.getId(); //todo:calculate correct value
                     }
                 }
 
+                if(FriendsOweMe != null){
+                    for(Friend friend:FriendsOweMe){
+                        mAmountOwedToMe += friend.getId(); //todo:calculate correct value
+                    }
+                }
+
+            }
+
+            @Override
+            public int getChildrenCount(int i) {
+                int result = 0;
+                switch (i){
+                    case 0:
+                        result = FriendsIOwe.size();
+                        break;
+                    case 1:
+                        result = FriendsOweMe.size();
+                        break;
+                }
+                return result;
+            }
+
+            @Override
+            public Object getChild(int i, int i1) {
+                Object result = null;
+                switch (i){
+                    case 0:
+                        result = FriendsIOwe.get(i1).getName().toString();
+                        break;
+                    case 1:
+                        result = FriendsOweMe.get(i1).getName().toString();
+                        break;
+                }
+                return result;
             }
 
             @Override
@@ -59,18 +94,8 @@ public class SummaryExpensesFragment extends Fragment
             }
 
             @Override
-            public int getChildrenCount(int i) {
-                return children[i].length;
-            }
-
-            @Override
             public Object getGroup(int i) {
                 return groups[i];
-            }
-
-            @Override
-            public Object getChild(int i, int i1) {
-                return children[i][i1];
             }
 
             @Override
@@ -95,15 +120,21 @@ public class SummaryExpensesFragment extends Fragment
                 TextView textViewTitle = (TextView) convertView.findViewById(R.id.text_view_group_title);
                 TextView textViewSubTitle = (TextView) convertView.findViewById(R.id.text_view_group_subtitle);
                 textViewTitle.setText(getGroup(i).toString());
-                textViewSubTitle.setText("$0");//TODO: don't forget calculate this
+                textViewSubTitle.setText(i==0?
+                String.format(getString(R.string.text_view_amount),mAmountIOwe):
+                String.format(getString(R.string.text_view_amount),mAmountOwedToMe));
                 return convertView;
             }
 
             @Override
             public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
-                TextView textView = new TextView(SummaryExpensesFragment.this.getActivity());
-                textView.setText(getChild(i, i1).toString());
-                return textView;
+                View convertView = inflater.inflate(R.layout.childrow, viewGroup, false);
+                TextView textViewTitle = (TextView) convertView.findViewById(R.id.text_view_child_title);
+                TextView textViewSubTitle = (TextView) convertView.findViewById(R.id.text_view_child_subtitle);
+
+                textViewTitle.setText(getChild(i, i1).toString());
+                textViewSubTitle.setText("$ 1");
+                return convertView;
             }
 
             @Override
