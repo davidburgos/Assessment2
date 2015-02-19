@@ -24,6 +24,7 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<Event, Integer> eventDao = null;
     private Dao<Friend, Integer> friendDao = null;
     private Dao<EventFriend,Integer> eventFriendDao= null;
+    private Dao<Payment, Integer> paymentDao = null;
     private Dao<Invoice,Integer> invoiceDao= null;
 
     public DataBaseHelper(Context context)
@@ -38,12 +39,23 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Event.class);
             TableUtils.createTable(connectionSource, Friend.class);
             TableUtils.createTable(connectionSource, EventFriend.class);
+            TableUtils.createTable(connectionSource, Payment.class);
             TableUtils.createTable(connectionSource, Invoice.class);
-
         } catch (SQLException e) {
             Log.i(LOG_TAG,"ERROR CREATING DATABASE",e);
             throw new RuntimeException(e);
         }
+    }
+
+    public Dao<Payment, Integer> getPaymentDao(){
+        if(null == paymentDao){
+            try {
+                paymentDao = getDao(Payment.class);
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+        return paymentDao;
     }
 
     public Dao<Friend, Integer> getFriendDao() {

@@ -88,11 +88,11 @@ public class EventDescriptionFragment extends ListFragment {
         {
             switch (resultCode) {
                 case Activity.RESULT_OK:
-                    String price = data.getStringExtra(NewInvoiceActivity.PRICE);
+                    int price = data.getIntExtra(NewInvoiceActivity.PRICE,0);
                     String service = data.getStringExtra(NewInvoiceActivity.SERVICE);
                     Invoice invoice = new Invoice();
                     invoice.setName(service);
-                    invoice.setPrice(Integer.parseInt(price));
+                    invoice.setPrice(price);
                     //mAdapter.add(new EventDescriptionItem(service,String.format("Juan Ramirez Paid $%s",price), "You Owe $70.000"));
                     mEventInvoices.add(invoice);
                     mAdapter.notifyDataSetChanged();

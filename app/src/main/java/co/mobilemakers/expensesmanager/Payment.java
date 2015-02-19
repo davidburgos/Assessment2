@@ -8,23 +8,25 @@ import com.j256.ormlite.field.DatabaseField;
 public class Payment {
 
     public final static String ID ="ID";
-    public final static String INVOICE_ID= "INVOICE_ID";
+    public final static String INVOICE= "INVOICE";
     public final static String FRIEND_ID = "FRIEND_ID";
     public final static String PRICE_TO_PAY = "PRICE_TO_PAY";
     public final static String IS_PAY = "IS_PAY";
 
     @DatabaseField(generatedId = true, columnName = ID)private int _id;
-    @DatabaseField(columnName = INVOICE_ID)private int mInvoiceId;
     @DatabaseField(columnName = FRIEND_ID)private int mFriendId;
     @DatabaseField(columnName = PRICE_TO_PAY)private int mPriceToPay;
     @DatabaseField(columnName = IS_PAY)private boolean mIsPay;
+    @DatabaseField(columnName = INVOICE,
+            foreign = true,
+            foreignAutoRefresh = true)private Invoice mInvoice;
 
-    public int getInvoiceId() {
-        return mInvoiceId;
+    public Invoice getInvoice() {
+        return mInvoice;
     }
 
-    public void setInvoiceId(int invoiceId) {
-        mInvoiceId = invoiceId;
+    public void setInvoice(Invoice invoice) {
+        mInvoice = invoice;
     }
 
     public int getFriendId() {
@@ -43,11 +45,11 @@ public class Payment {
         mPriceToPay = priceToPay;
     }
 
-    public boolean isPay() {
+    public boolean getIsPay() {
         return mIsPay;
     }
 
-    public void setPay(boolean isPay) {
+    public void setIsPay(boolean isPay) {
         mIsPay = isPay;
     }
 }
