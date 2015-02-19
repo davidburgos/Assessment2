@@ -19,7 +19,8 @@ public class Payment {
     @DatabaseField(columnName = IS_PAY)private boolean mIsPay;
     @DatabaseField(columnName = INVOICE,
                     foreign = true,
-                    foreignAutoRefresh = true)private Invoice mInvoice;
+                    foreignAutoRefresh = true,
+                    foreignAutoCreate = true)private Invoice mInvoice;
 
     public Invoice getInvoice() {
         return mInvoice;
