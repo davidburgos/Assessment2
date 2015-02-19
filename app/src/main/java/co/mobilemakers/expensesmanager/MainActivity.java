@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 
 import java.util.List;
 import java.util.Locale;
@@ -17,8 +16,6 @@ import java.util.Locale;
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
 
     SectionsPagerAdapter mSectionsPagerAdapter;
-    private final static String LOG_TAG = MainActivity.class.getSimpleName();
-
 
     ViewPager mViewPager;
 
