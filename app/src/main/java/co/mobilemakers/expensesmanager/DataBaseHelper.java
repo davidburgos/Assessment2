@@ -25,6 +25,7 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<Friend, Integer> friendDao = null;
     private Dao<EventFriend,Integer> eventFriendDao= null;
     private Dao<Payment, Integer> paymentDao = null;
+    private Dao<Invoice,Integer> invoiceDao= null;
 
     public DataBaseHelper(Context context)
     {
@@ -87,6 +88,17 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
             }
         }
         return eventFriendDao;
+    }
+
+    public Dao<Invoice, Integer> getInvoiceDao() {
+        if (null == invoiceDao) {
+            try {
+                invoiceDao = getDao(Invoice.class);
+            }catch (java.sql.SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return invoiceDao;
     }
 
 

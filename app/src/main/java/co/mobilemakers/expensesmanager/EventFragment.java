@@ -21,6 +21,7 @@ public class EventFragment extends ListFragment {
     public final static Integer REQUEST_CODE_CREATE_EVENT = 1;
     public final static Integer REQUEST_CODE_EVENT = 2;
     public final static String EVENT_NAME = "EVENT_NAME";
+    public final static String EVENT_ID = "EVENT_ID";
     private final static String LOG_TAG = EventFragment.class.getSimpleName();
 
     ArrayList<Event> mEvents;
@@ -63,6 +64,7 @@ public class EventFragment extends ListFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), EventDescriptionActivity.class);
                 Event event = (Event)parent.getItemAtPosition(position);
+                intent.putExtra(EVENT_ID,event.getId());
                 intent.putExtra(EVENT_NAME, event.getName());
                 startActivity(intent);
             }

@@ -26,7 +26,9 @@ public class EventDescriptionFragment extends ListFragment {
 
     public static final int REQUEST_CODE = 0;
     public static String EVENT_NAME = "EVENT_NAME";
+    public static String EVENT_ID = "EVENT_ID";
     private String eventName;
+    private int eventId;
 
     List<Invoice> mEventInvoices;
     InvoiceAdapter mAdapter;
@@ -40,6 +42,7 @@ public class EventDescriptionFragment extends ListFragment {
         View rootView = inflater.inflate(R.layout.fragment_event_description, container, false);
         setHasOptionsMenu(true);
         eventName = (String)getActivity().getIntent().getExtras().get(EventFragment.EVENT_NAME);
+        eventId = getActivity().getIntent().getExtras().getInt(EventFragment.EVENT_ID);
         //TODO total all invoices
  /*       TextView textViewTotal = (TextView)rootView.findViewById(R.id.text_view_sum_invoices);
         Log.d("total->", Integer.toString(mAdapter.total));
@@ -65,6 +68,7 @@ public class EventDescriptionFragment extends ListFragment {
             case R.id.add_Item:
                 Intent intent = new Intent(getActivity(),NewInvoiceActivity.class);
                 intent.putExtra(EVENT_NAME,eventName);
+                intent.putExtra(EVENT_ID,eventId);
                 startActivityForResult(intent, REQUEST_CODE);
                 handled = true;
                 break;
