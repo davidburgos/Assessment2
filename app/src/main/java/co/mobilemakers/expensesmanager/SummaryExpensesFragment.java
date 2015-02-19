@@ -11,7 +11,10 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
-    public class SummaryExpensesFragment extends Fragment
+import java.util.ArrayList;
+import java.util.List;
+
+public class SummaryExpensesFragment extends Fragment
     {
         private Context mContext;
 
@@ -29,14 +32,25 @@ import android.widget.TextView;
             private LayoutInflater inflater;
             private String[] groups = { getString(R.string.text_view_title_you_owe),getString(R.string.text_view_title_owed_to_you)};
 
-            private String[][] children = {
-                    { "Arnold", "Barry", "Chuck", "David" },
-                    { "Ace", "Bandit", "Cha-Cha", "Deuce" }
-            };
+            private String[][] children;
 
             public SavedTabsListAdapter()
             {
                 inflater = LayoutInflater.from(mContext);
+
+                DataBaseManager.init(getActivity());
+                List<Friend> FriendList = DataBaseManager.getInstance().getAllFriends();
+                List<String> contents = new ArrayList<String>();
+
+                if(FriendList != null){
+                    for(int x=0; x<groups.length;x++){
+                        for(Friend friend:FriendList){
+                            contents.add(friend.getName());
+                        }
+                      //  children[x][0] = contents.; //TODO: terminar
+                    }
+                }
+
             }
 
             @Override
@@ -80,7 +94,6 @@ import android.widget.TextView;
                 View convertView = inflater.inflate(R.layout.grouprow, viewGroup, false);
                 TextView textViewTitle = (TextView) convertView.findViewById(R.id.text_view_group_title);
                 TextView textViewSubTitle = (TextView) convertView.findViewById(R.id.text_view_group_subtitle);
-
                 textViewTitle.setText(getGroup(i).toString());
                 textViewSubTitle.setText("$0");//TODO: don't forget calculate this
                 return convertView;
