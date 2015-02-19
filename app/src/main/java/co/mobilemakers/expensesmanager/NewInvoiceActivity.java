@@ -3,6 +3,7 @@ package co.mobilemakers.expensesmanager;
 import android.app.Activity;
 import android.content.Intent;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -14,6 +15,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.j256.ormlite.dao.CloseableIterator;
+import com.j256.ormlite.dao.CloseableWrappedIterable;
+import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.field.DatabaseField;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 
 public class NewInvoiceActivity extends ActionBarActivity {
@@ -40,22 +52,34 @@ public class NewInvoiceActivity extends ActionBarActivity {
         mButtonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DataBaseManager.init(getBaseContext());
+                ForeignCollection<Payment> paymentList = DataBaseManager.getInstance().getEmptyForeignCollection();
                 Invoice invoice = new Invoice();
                 invoice.setName(mService.getText().toString());
                 invoice.setPrice(Integer.parseInt(mPrice.getText().toString()));
                 invoice.setEventId(eventId);
-               // invoice.setPayments();
-                DataBaseManager.init(getBaseContext());
+                //invoice.setFriendId(); --yo
+
+                for(int i =0;i<3;i++)
+                {
+                    Payment p = new Payment();
+                    p.setPriceToPay(invoice.getPrice() / 3);
+                    p.setIsPay(false);
+                    p.setFriendId(i+1);
+                    paymentList.add(p);
+                }
+                invoice.setPayments(paymentList);
                 DataBaseManager.getInstance().addInvoice(invoice);
-               /* Intent intent = new Intent();
-                intent.putExtra(PRICE,);
-                intent.putExtra(SERVICE ,);*/
-                setResult(Activity.RESULT_OK, null);
+                Intent intent = new Intent();
+                intent.putExtra(PRICE,invoice.getPrice());
+                intent.putExtra(SERVICE ,invoice.getName());
+                setResult(Activity.RESULT_OK, intent);
                 finish();
             }
         });
         checkFieldsForEmptyValues();
     }
+
 
     private void customizeActionBar(String eventName) {
         ActionBar actionBar = getSupportActionBar();
