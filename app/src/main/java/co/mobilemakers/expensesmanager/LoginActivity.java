@@ -20,6 +20,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -91,6 +93,23 @@ public class LoginActivity extends Activity {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private ImageView mImage;
+    private RadioGroup mRadioGroup;
+
+    private void loginDatabase(String username, String password) {
+
+        int result = 404;
+        DataBaseManager.init(getBaseContext());
+        Friend userLogged = DataBaseManager.getInstance().getFriendById(username);
+
+        if (userLogged != null) {
+            if (userLogged.getPassword().toString().equals(password)) {
+                user.setFriend(userLogged);
+                result = 200;
+            }
+        }
+        resultMessage(result);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,8 +117,25 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
         user = new User();
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-
+        mImage = (ImageView) findViewById(R.id.imageViewLogo);
         mPasswordView = (EditText) findViewById(R.id.password);
+        mRadioGroup = (RadioGroup)findViewById(R.id.radio_group_login);
+
+        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                switch (checkedId){
+                    case R.id.radio_button_expenses_manager:
+                        mImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_expenses));
+                        break;
+                    case R.id.radio_button_aboutme:
+                        mImage.setImageDrawable(getResources().getDrawable(R.drawable.aboutme_logo));
+                        break;
+                }
+            }
+        });
+
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -153,14 +189,19 @@ public class LoginActivity extends Activity {
         if (cancel) {
             focusView.requestFocus();
         } else {
-            showProgress(true);
-            mAuthTask = new AboutMeLogin();
-            mAuthTask.execute(email, password);
+            switch(mRadioGroup.getCheckedRadioButtonId()){
+                case R.id.radio_button_aboutme:
+                    showProgress(true);
+                    mAuthTask = new AboutMeLogin();
+                    mAuthTask.execute(email, password);
+                    break;
+                case R.id.radio_button_expenses_manager:
+                    loginDatabase(email, password);
+                    break;
+                default:
+                    break;
+            }
         }
-    }
-
-    private boolean isPasswordValid(String password) {
-        return password.length() > 4;
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
@@ -175,9 +216,11 @@ public class LoginActivity extends Activity {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+                    mImage.setVisibility(show ? View.GONE : View.VISIBLE);
                 }
             });
 
+            mImage.setVisibility(show ? View.GONE : View.VISIBLE);
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mProgressView.animate().setDuration(shortAnimTime).alpha(
                     show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
@@ -189,6 +232,7 @@ public class LoginActivity extends Activity {
         } else {
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mImage.setVisibility(show ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -392,64 +436,65 @@ public class LoginActivity extends Activity {
             super.onPostExecute(success);
 
             mAuthTask = null;
-
-            switch (success){
-                case 200:
-                    Intent mainActivity = new Intent(getBaseContext(),MainActivity.class);
-                    mainActivity.putExtra(USERI_ID,mEmailView.getText().toString());
-                    startActivity(mainActivity);
-                    finish();
-                    break;
-                case 205:
-                    mPasswordView.setError(getString(R.string.string_login_status205));
-                    mPasswordView.requestFocus();
-                    break;
-                case 304:
-                    mPasswordView.setError(getString(R.string.string_login_status304));
-                    mPasswordView.requestFocus();
-                    break;
-                case 401:
-                    mPasswordView.setError(getString(R.string.string_login_status401));
-                    mPasswordView.requestFocus();
-                    break;
-                case 403:
-                    mPasswordView.setError(getString(R.string.string_login_status403));
-                    mPasswordView.requestFocus();
-                    break;
-                case 404:
-                    mPasswordView.setError(getString(R.string.string_login_status404));
-                    mPasswordView.requestFocus();
-                    break;
-                case 406:
-                    mPasswordView.setError(getString(R.string.string_login_status406));
-                    mPasswordView.requestFocus();
-                    break;
-                case 500:
-                    mPasswordView.setError(getString(R.string.string_login_status500));
-                    mPasswordView.requestFocus();
-                    break;
-                case 501:
-                    mPasswordView.setError(getString(R.string.string_login_status501));
-                    mPasswordView.requestFocus();
-                    break;
-                case 502:
-                    mPasswordView.setError(getString(R.string.string_login_status502));
-                    mPasswordView.requestFocus();
-                    break;
-                case 503:
-                    mPasswordView.setError(getString(R.string.string_login_status503));
-                    mPasswordView.requestFocus();
-                    break;
-                default:
-                    mPasswordView.setError(getString(R.string.string_login_status_default_error));
-                    mPasswordView.requestFocus();
-                    break;
-            }
             showProgress(false);
-
+            resultMessage(success);
         }
     }
 
+    private void resultMessage(Integer success) {
+        switch (success){
+            case 200:
+                Intent mainActivity = new Intent(getBaseContext(),MainActivity.class);
+                mainActivity.putExtra(USERI_ID,mEmailView.getText().toString());
+                startActivity(mainActivity);
+                finish();
+                break;
+            case 205:
+                mPasswordView.setError(getString(R.string.string_login_status205));
+                mPasswordView.requestFocus();
+                break;
+            case 304:
+                mPasswordView.setError(getString(R.string.string_login_status304));
+                mPasswordView.requestFocus();
+                break;
+            case 401:
+                mPasswordView.setError(getString(R.string.string_login_status401));
+                mPasswordView.requestFocus();
+                break;
+            case 403:
+                mPasswordView.setError(getString(R.string.string_login_status403));
+                mPasswordView.requestFocus();
+                break;
+            case 404:
+                mPasswordView.setError(getString(R.string.string_login_status404));
+                mPasswordView.requestFocus();
+                break;
+            case 406:
+                mPasswordView.setError(getString(R.string.string_login_status406));
+                mPasswordView.requestFocus();
+                break;
+            case 500:
+                mPasswordView.setError(getString(R.string.string_login_status500));
+                mPasswordView.requestFocus();
+                break;
+            case 501:
+                mPasswordView.setError(getString(R.string.string_login_status501));
+                mPasswordView.requestFocus();
+                break;
+            case 502:
+                mPasswordView.setError(getString(R.string.string_login_status502));
+                mPasswordView.requestFocus();
+                break;
+            case 503:
+                mPasswordView.setError(getString(R.string.string_login_status503));
+                mPasswordView.requestFocus();
+                break;
+            default:
+                mPasswordView.setError(getString(R.string.string_login_status_default_error));
+                mPasswordView.requestFocus();
+                break;
+        }
+    }
 }
 
 

@@ -35,6 +35,9 @@
     <string name="text_view_empty_event_list">You don\'t have events.</string>
     <string name="text_view_empty_create_event_list">You don\'t have Friends for this event.</string>
     <string name="text_view_empty_event_description_list">This event doesn\'t have bills.</string>
+    <string name="text_view_amount">$ %d</string>
+    <string name="radio_button_text_aboutme">About.me</string>
+    <string name="text_view_title_login_with">Login with...</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Username</string>
@@ -58,7 +61,6 @@
     <string name ="string_login_status501">Error 501 Not Implemented: The requested feature is not implemented or supported.</string>
     <string name ="string_login_status502">Error 502 Bad Gateway: About.me is down or being upgraded.</string>
     <string name ="string_login_status503">Error 503 Service Unavailable: The about.me servers are up, but overloaded with requests. Please try again later.</string>
-    <string name="text_view_amount">$ %d</string>
 
 
 </resources>
