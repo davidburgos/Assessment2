@@ -138,8 +138,8 @@ public class LoginActivity extends Activity {
         boolean cancel = false;
         View focusView = null;
 
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
+        if (TextUtils.isEmpty(password)) {
+            mPasswordView.setError(getString(R.string.error_field_required));
             focusView = mPasswordView;
             cancel = true;
         }
@@ -247,11 +247,13 @@ public class LoginActivity extends Activity {
                     String response = readFullResponse(httpConnection.getInputStream());
                     result = parseResponse(response, true);
 
-                    if(mUserToken != null){
-                        query = constructURLQueryForUser(username, mUserToken);
-                        httpConnection = (HttpURLConnection)query.openConnection();
-                        response = readFullResponse(httpConnection.getInputStream());
-                        result = parseResponse(response, false);
+                    if(result==200){
+                        if(!mUserToken.isEmpty()){
+                            query = constructURLQueryForUser(username, mUserToken);
+                            httpConnection = (HttpURLConnection)query.openConnection();
+                            response = readFullResponse(httpConnection.getInputStream());
+                            result = parseResponse(response, false);
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
