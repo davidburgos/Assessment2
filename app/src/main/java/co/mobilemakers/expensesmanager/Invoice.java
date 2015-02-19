@@ -16,7 +16,7 @@ public class Invoice {
     public final static String NAME = "NAME";
     public final static String PRICE = "PRICE";
     public final static String EVENT_ID = "EVENT_ID";
-    public final static String INVOICE = "INVOICE";
+    public final static String PAYMENTS = "PAYMENTS";
     public final static String FRIEND_ID = "FRIEND_ID";
 
     @DatabaseField(generatedId = true, columnName = ID)private int _id;
@@ -24,8 +24,8 @@ public class Invoice {
     @DatabaseField(columnName = PRICE)private int mPrice;
     @DatabaseField(columnName = EVENT_ID)private int mEventId;
     @DatabaseField(columnName = FRIEND_ID)private int mFriendId;
-    @ForeignCollectionField(columnName = INVOICE)
-                        private ForeignCollection<Payment> mPayments;
+    @ForeignCollectionField(columnName = PAYMENTS)
+    private ForeignCollection<Payment> mPayments;
 
     public String getName() {
         return mName;

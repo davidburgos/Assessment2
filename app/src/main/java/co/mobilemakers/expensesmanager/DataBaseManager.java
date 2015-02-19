@@ -75,6 +75,33 @@ public class DataBaseManager {
         return  friend;
     }
 
+    public Friend getFriendById(String username){
+
+        Friend friend = null;
+        try {
+            Dao<Friend, Integer> dao = getHelper().getFriendDao();
+
+            if (dao != null){
+
+                QueryBuilder<Friend, Integer> queryBuilder = dao.queryBuilder();
+                queryBuilder.where().eq(Friend.EMAIL, username);
+                PreparedQuery<Friend> preparedQuery = queryBuilder.prepare();
+
+                List<Friend> friendList = dao.query(preparedQuery);
+
+                if(!friendList.isEmpty()){
+                    friend = friendList.get(friendList.size()-1);
+                }
+            }
+
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return  friend;
+    }
+
     public List<Friend> getAllFriends()
     {
         List<Friend> friendList = null;
@@ -132,6 +159,25 @@ public class DataBaseManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void  addPayment(Payment p){
+        try {
+            getHelper().getPaymentDao().create(p);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ForeignCollection<Payment> getEmptyForeignCollection()
+    {
+        ForeignCollection<Payment> payments = null;
+        try {
+            payments = getHelper().getInvoiceDao().getEmptyForeignCollection("PAYMENTS");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return payments;
     }
 
 }

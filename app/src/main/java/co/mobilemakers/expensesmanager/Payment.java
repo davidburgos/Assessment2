@@ -22,12 +22,12 @@ public class Payment {
                     foreignAutoRefresh = true,
                     foreignAutoCreate = true)private Invoice mInvoice;
 
-    public Invoice getInvoice() {
-        return mInvoice;
+    public int getInvoiceId() {
+        return mInvoiceId;
     }
 
-    public void setInvoice(Invoice invoice) {
-        mInvoice = invoice;
+    public void setInvoiceId(int invoiceId) {
+        mInvoiceId = invoiceId;
     }
 
     public int getFriendId() {
