@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -25,6 +26,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         setContentView(R.layout.activity_main);
         populateFriendsTable();
         customizeActionBar();
+        testquery();
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
@@ -46,6 +48,14 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+    }
+    private void testquery()
+    {
+
+        List<Friend>lf = new ArrayList<Friend>();
+        DataBaseManager.init(getBaseContext());
+        lf = DataBaseManager.getInstance().getAllFriendsOwedMe(1);
+
     }
 
     private void customizeActionBar() {

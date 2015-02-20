@@ -1,6 +1,8 @@
 package co.mobilemakers.expensesmanager;
 
 import android.content.Context;
+import android.os.IInterface;
+import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.ForeignCollection;
@@ -8,6 +10,7 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -154,5 +157,56 @@ public class DataBaseManager {
         }
         return payments;
     }
+
+    public List<Friend>getAllFriendsOwedMe(int friendId)
+    {
+        List<Invoice> invoicesList = new ArrayList<>();
+        Dao<Invoice, Integer> dao = getHelper().getInvoiceDao();
+        try {
+            if (dao != null) {
+                QueryBuilder<Invoice, Integer> queryBuilder = dao.queryBuilder();
+                queryBuilder.where().eq(Invoice.FRIEND_ID, friendId);
+                PreparedQuery<Invoice> preparedQuery = queryBuilder.prepare();
+                invoicesList = dao.query(preparedQuery);
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return  new ArrayList<>();
+
+    }
+
+    public List<Friend> getFriendsByEventId(int eventId)
+    {
+        List<Friend> friendList = new ArrayList<>();
+        Dao<EventFriend, Integer> dao = getHelper().getEventFriendDao();
+        Dao<Friend, Integer> dao2 = getHelper().getFriendDao();
+
+        try {
+            if (dao != null){
+                QueryBuilder<EventFriend, Integer> queryBuilder = dao.queryBuilder();
+                queryBuilder.where().eq(EventFriend.EVENT, eventId);
+                PreparedQuery<EventFriend> preparedQuery = queryBuilder.prepare();
+                List<EventFriend> eventFriendList = dao.query(preparedQuery);
+
+                if(!eventFriendList.isEmpty()){
+                    for(EventFriend ev : eventFriendList) {
+                        Log.d("EV.ID->", ev.getId() + "|frndId->" + ev.getmFriend().getId());
+                        //friendList.add(dao2.queryForId(ev.getmFriend().getId()));
+                    }
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return  friendList;
+    }
+
+
 
 }
