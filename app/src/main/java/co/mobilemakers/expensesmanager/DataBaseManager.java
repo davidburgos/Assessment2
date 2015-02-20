@@ -50,7 +50,6 @@ public class DataBaseManager {
         return  friend;
     }
 
-
     public Friend getFriendById(String username){
 
         Friend friend = null;
@@ -89,6 +88,50 @@ public class DataBaseManager {
             e.printStackTrace();
         }
         return  friendList;
+    }
+
+    public List<SummaryExpensesFragment.FriendAndPrice> getAllFriendsIOwe(int Id){
+        List<SummaryExpensesFragment.FriendAndPrice> result = new ArrayList<>();
+        try {
+            Dao<Payment, Integer> paymentDao = getHelper().getPaymentDao();
+
+            if (paymentDao != null){
+                QueryBuilder<Payment, Integer> queryPaymentBuilder = paymentDao.queryBuilder();
+                queryPaymentBuilder.where().eq(Payment.FRIEND_ID, Id).and().eq(Payment.IS_PAY, Boolean.FALSE);
+                PreparedQuery<Payment> preparedQuery = queryPaymentBuilder.prepare();
+
+                List<Payment> PaymentList = paymentDao.query(preparedQuery);
+
+                if(!PaymentList.isEmpty()){
+                    for(Payment payment:PaymentList){
+                        SummaryExpensesFragment.FriendAndPrice friend = new SummaryExpensesFragment.FriendAndPrice();
+                        friend.setPrice(payment.getPriceToPay());
+
+
+                        Dao<Invoice, Integer> invoiceDao = getHelper().getInvoiceDao();
+
+                        if (invoiceDao != null){
+
+                            QueryBuilder<Invoice, Integer> queryInvoiceBuilder = invoiceDao.queryBuilder();
+                            queryInvoiceBuilder.where().eq(Invoice.ID, payment.getInvoice());
+                            PreparedQuery<Invoice> preparedInvoiceQuery = queryInvoiceBuilder.prepare();
+                            List<Invoice> InvoiceList = invoiceDao.query(preparedInvoiceQuery);
+
+                            if(!InvoiceList.isEmpty()){
+
+                            }
+
+                        }
+
+                    }
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return  result;
     }
 
     public void addFriend(Friend f) {

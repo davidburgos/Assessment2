@@ -17,6 +17,32 @@ import java.util.List;
 
 public class SummaryExpensesFragment extends Fragment
     {
+
+        public static class FriendAndPrice{
+
+            private int mPrice;
+            private Friend mFriend;
+
+            public FriendAndPrice() {
+            }
+
+            public int getPrice() {
+                return mPrice;
+            }
+
+            public void setPrice(int price) {
+                mPrice = price;
+            }
+
+            public Friend getFriend() {
+                return mFriend;
+            }
+
+            public void setFriend(Friend friend) {
+                mFriend = friend;
+            }
+        }
+
         private Context mContext;
 
         @Override
@@ -33,7 +59,7 @@ public class SummaryExpensesFragment extends Fragment
             private LayoutInflater inflater;
             private String[] groups = { getString(R.string.text_view_title_you_owe),getString(R.string.text_view_title_owed_to_you)};
 
-            private List<Friend> FriendsIOwe = new ArrayList<>();
+            private List<FriendAndPrice> FriendsIOwe = new ArrayList<>();
             private List<Friend> FriendsOweMe = new ArrayList<>();
 
             private int mAmountIOwe = 0, mAmountOwedToMe = 0;
@@ -43,12 +69,13 @@ public class SummaryExpensesFragment extends Fragment
                 inflater = LayoutInflater.from(mContext);
 
                 DataBaseManager.init(getActivity());
-                FriendsIOwe  = DataBaseManager.getInstance().getAllFriends();
-                FriendsOweMe = DataBaseManager.getInstance().getAllFriends();
+                DataBaseManager dataBaseManager = DataBaseManager.getInstance();
+                FriendsIOwe  = dataBaseManager.getAllFriendsIOwe(LoginActivity.user.getFriend().getId());
+                FriendsOweMe = dataBaseManager.getAllFriends();
 
                 if(FriendsIOwe != null){
-                    for(Friend friend:FriendsIOwe){
-                        mAmountIOwe += friend.getId(); //todo:calculate correct value
+                    for(FriendAndPrice friend:FriendsIOwe){
+                        //  mAmountIOwe += friend.split(":"); //todo:calculate correct value
                     }
                 }
 
@@ -79,7 +106,7 @@ public class SummaryExpensesFragment extends Fragment
                 Object result = null;
                 switch (i){
                     case 0:
-                        result = FriendsIOwe.get(i1).getName().toString();
+                        //  result = FriendsIOwe.get(i1).getName().toString();
                         break;
                     case 1:
                         result = FriendsOweMe.get(i1).getName().toString();
@@ -121,8 +148,8 @@ public class SummaryExpensesFragment extends Fragment
                 TextView textViewSubTitle = (TextView) convertView.findViewById(R.id.text_view_group_subtitle);
                 textViewTitle.setText(getGroup(i).toString());
                 textViewSubTitle.setText(i==0?
-                String.format(getString(R.string.text_view_amount),mAmountIOwe):
-                String.format(getString(R.string.text_view_amount),mAmountOwedToMe));
+                        String.format(getString(R.string.text_view_amount),mAmountIOwe):
+                        String.format(getString(R.string.text_view_amount),mAmountOwedToMe));
                 return convertView;
             }
 

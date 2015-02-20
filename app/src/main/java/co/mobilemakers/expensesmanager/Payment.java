@@ -56,4 +56,8 @@ public class Payment {
     public void setPay(boolean isPay) {
         mIsPay = isPay;
     }
+
+    public Invoice getInvoice() {
+        return mInvoice;
+    }
 }
