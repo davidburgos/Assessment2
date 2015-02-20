@@ -102,11 +102,10 @@ public class DataBaseManager {
                 queryPaymentBuilder.where().eq(Payment.FRIEND_ID, Id).and().eq(Payment.IS_PAY, Boolean.FALSE);
                 PreparedQuery<Payment> preparedQuery = queryPaymentBuilder.prepare();
 
-                List<Payment> PaymentList = paymentDao.query(preparedQuery);
+                List<Payment> paymentList = paymentDao.query(preparedQuery);
 
-                if(!PaymentList.isEmpty()){
-                    for(Payment payment:PaymentList){
-                        int id = payment.getFriendId();
+                for(Payment payment:paymentList){
+                        int id = payment.getInvoice().getFriendId();
                         boolean containsFriend = false;
                         for(SummaryExpensesFragment.FriendAndPrice friend : result){
                             if(friend.getFriend().getId() == id){
@@ -122,7 +121,6 @@ public class DataBaseManager {
                         }
                     }
                 }
-            }
         }
         catch (SQLException e)
         {
