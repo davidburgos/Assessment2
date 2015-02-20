@@ -53,6 +53,7 @@ public class InvoiceAdapter extends ArrayAdapter<Invoice> {
             DataBaseManager.init(getContext());
             Friend friend = DataBaseManager.getInstance().getFriendById(friendId);
             TextView text_view_total = (TextView) rowView.findViewById(R.id.text_view_you_owe);
+            text_view_friend.setText(friend.getName() + " paid $" + mInvoices.get(position).getPrice());
             if(mInvoices.get(position).getFriendId() != LoginActivity.user.getFriend().getId()) {
                 DataBaseManager.init(getContext());
                 int friends = DataBaseManager.getInstance().getFriendsByEventId(mInvoices.get(position).getEventId()).size();
