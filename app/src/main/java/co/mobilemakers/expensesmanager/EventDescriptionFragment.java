@@ -81,10 +81,20 @@ public class EventDescriptionFragment extends ListFragment {
         mEventInvoices = new ArrayList<>();
         DataBaseManager.init(getActivity());
         mEventInvoices = (ArrayList)DataBaseManager.getInstance().getInvoicesByEventId(eventId);
+        setTotalInvoices();
         mAdapter = new InvoiceAdapter(getActivity(), mEventInvoices);
         setListAdapter(mAdapter);
     }
 
+    private void setTotalInvoices() {
+        int i =0;
+        for(Invoice invoiceSingle :mEventInvoices)
+        {
+          i=i+invoiceSingle.getPrice();
+        }
+        mTextViewTotal = (TextView)getView().findViewById(R.id.text_view_sum_invoices);
+        mTextViewTotal.setText(String.format(getString(R.string.text_view_amount),i));
+    }
 
 
     @Override

@@ -18,7 +18,7 @@ public class EventFriend {
     @DatabaseField(generatedId = true,columnName = ID)
     private int _id;
 
-    public Friend getmFriend() {
+    public Friend getFriend() {
         return mFriend;
     }
 
@@ -48,7 +48,6 @@ public class EventFriend {
         mEvent = event;
     }
 
-    public int getId() {
-        return _id;
+
     }
-}
+

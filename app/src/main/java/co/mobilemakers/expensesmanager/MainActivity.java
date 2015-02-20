@@ -25,7 +25,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         customizeActionBar();
-        testquery();
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
@@ -48,14 +47,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                             .setTabListener(this));
         }
     }
-    private void testquery()
-    {
 
-        List<Friend>lf = new ArrayList<Friend>();
-        DataBaseManager.init(getBaseContext());
-        lf = DataBaseManager.getInstance().getAllFriendsOwedMe(1);
-
-    }
 
     private void customizeActionBar() {
         ActionBar actionBar = getSupportActionBar();
