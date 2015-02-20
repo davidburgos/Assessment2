@@ -1,6 +1,7 @@
 package co.mobilemakers.expensesmanager;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,6 @@ public class InvoiceAdapter extends ArrayAdapter<Invoice> {
 
     List<Invoice> mInvoices;
     Context mContext;
-    public int total = 0;
 
     public InvoiceAdapter(Context context, List<Invoice> invoices) {
         super(context, R.layout.list_item_invoices, invoices);
@@ -53,11 +53,15 @@ public class InvoiceAdapter extends ArrayAdapter<Invoice> {
             DataBaseManager.init(getContext());
             Friend friend = DataBaseManager.getInstance().getFriendById(friendId);
             text_view_friend.setText(friend.getName() + " paid $" + mInvoices.get(position).getPrice());
-
             //TODO get how many people are in the event to divide the price
             TextView text_view_total = (TextView) rowView.findViewById(R.id.text_view_you_owe);
-            text_view_total.setText("Divide total");
-            total += 1000;
+            if(mInvoices.get(position).getFriendId() != LoginActivity.user.getFriend().getId()) {
+                DataBaseManager.init(getContext());
+                int friends = DataBaseManager.getInstance().getFriendsByEventId(mInvoices.get(position).getEventId()).size();
+                text_view_total.setText("You owe $" + Integer.toString(mInvoices.get(position).getPrice()/friends));
+            }
+            else
+                text_view_total.setText("");
         }
     }
 

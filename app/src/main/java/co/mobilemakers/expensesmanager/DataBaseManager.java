@@ -52,7 +52,6 @@ public class DataBaseManager {
         return  friend;
     }
 
-
     public Friend getFriendById(String username){
 
         Friend friend = null;
@@ -93,6 +92,66 @@ public class DataBaseManager {
         return  friendList;
     }
 
+    public List<SummaryExpensesFragment.FriendAndPrice> getAllFriendsIOwe(int Id){
+        List<SummaryExpensesFragment.FriendAndPrice> result = new ArrayList<>();
+        try {
+            Dao<Payment, Integer> paymentDao = getHelper().getPaymentDao();
+
+            if (paymentDao != null){
+                QueryBuilder<Payment, Integer> queryPaymentBuilder = paymentDao.queryBuilder();
+                queryPaymentBuilder.where().eq(Payment.FRIEND_ID, Id).and().eq(Payment.IS_PAY, Boolean.FALSE);
+                PreparedQuery<Payment> preparedQuery = queryPaymentBuilder.prepare();
+
+                List<Payment> PaymentList = paymentDao.query(preparedQuery);
+
+                if(!PaymentList.isEmpty()){
+                    for(Payment payment:PaymentList){
+                        SummaryExpensesFragment.FriendAndPrice friend = new SummaryExpensesFragment.FriendAndPrice();
+                        friend.setPrice(payment.getPriceToPay());
+                        friend.setFriend(getFriendById(payment.getInvoice().getFriendId()));
+                        result.add(friend);
+                    }
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return  result;
+    }
+
+    public List<SummaryExpensesFragment.FriendAndPrice> getAllFriendsOwedMe(int Id){
+        List<SummaryExpensesFragment.FriendAndPrice> result = new ArrayList<>();
+        try {
+            Dao<Payment, Integer> paymentDao = getHelper().getPaymentDao();
+            Dao<Invoice, Integer> invoiceDao = getHelper().getInvoiceDao();
+
+            if (paymentDao != null){
+                QueryBuilder<Invoice, Integer> queryInvoiceBuilder = invoiceDao.queryBuilder();
+                queryInvoiceBuilder.where().eq(Invoice.FRIEND_ID, Id);
+                PreparedQuery<Invoice> preparedInvoiceQuery = queryInvoiceBuilder.prepare();
+                List<Invoice> invoices = invoiceDao.query(preparedInvoiceQuery);
+                for(Invoice invoice : invoices){
+                    List<Payment> payments = invoice.getPayments();
+                    for(Payment payment : payments){
+                        if(!payment.isPay()) {
+                            SummaryExpensesFragment.FriendAndPrice friend = new SummaryExpensesFragment.FriendAndPrice();
+                            friend.setPrice(payment.getPriceToPay());
+                            friend.setFriend(getFriendById(payment.getFriendId()));
+                            result.add(friend);
+                        }
+                    }
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return  result;
+    }
+
     public void addFriend(Friend f) {
         try {
             getHelper().getFriendDao().create(f);
@@ -101,8 +160,7 @@ public class DataBaseManager {
         }
     }
 
-    public List<Event> getAllEvents()
-    {
+    public List<Event> getAllEvents(){
         List<Event> eventList = null;
         try {
             eventList = getHelper().getEventDao().queryForAll();
@@ -121,7 +179,6 @@ public class DataBaseManager {
             e1.printStackTrace();
         }
     }
-
 
     public void  addEventFriend(EventFriend e){
         try {
@@ -200,5 +257,7 @@ public class DataBaseManager {
         }
         return  friendList;
     }
+
+
 
 }

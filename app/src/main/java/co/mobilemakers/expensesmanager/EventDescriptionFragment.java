@@ -30,8 +30,9 @@ public class EventDescriptionFragment extends ListFragment {
     private String eventName;
     private int eventId;
 
-    List<Invoice> mEventInvoices;
+    List<Invoice> mEventInvoices = new ArrayList<>();
     InvoiceAdapter mAdapter;
+    TextView mTextViewTotal;
 
     public EventDescriptionFragment() {
     }
@@ -43,10 +44,6 @@ public class EventDescriptionFragment extends ListFragment {
         setHasOptionsMenu(true);
         eventName = (String)getActivity().getIntent().getExtras().get(EventFragment.EVENT_NAME);
         eventId = getActivity().getIntent().getExtras().getInt(EventFragment.EVENT_ID);
-        //TODO total all invoices
- /*     TextView textViewTotal = (TextView)rootView.findViewById(R.id.text_view_sum_invoices);
-        Log.d("total->", Integer.toString(mAdapter.total));
-        textViewTotal.setText("Total Invoices: $"+Integer.toString(mAdapter.total));*/
         return rootView;
     }
 
@@ -55,6 +52,8 @@ public class EventDescriptionFragment extends ListFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         populateInvoices();
+        DataBaseManager.init(getActivity());
+        DataBaseManager.getInstance().getAllFriendsOwedMe(LoginActivity.user.getFriend().getId());
     }
 
     @Override
@@ -86,6 +85,8 @@ public class EventDescriptionFragment extends ListFragment {
         setListAdapter(mAdapter);
     }
 
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -107,4 +108,6 @@ public class EventDescriptionFragment extends ListFragment {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_event_description_fragment,menu);
     }
+
+
 }
