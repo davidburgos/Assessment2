@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.Locale;
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
 
     SectionsPagerAdapter mSectionsPagerAdapter;
-
+    Fragment mSummaryFragment;
     ViewPager mViewPager;
 
     @Override
@@ -27,7 +28,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         customizeActionBar();
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
+        mSummaryFragment = new SummaryExpensesFragment();
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -60,6 +61,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
         mViewPager.setCurrentItem(tab.getPosition());
+        if(tab.getPosition() == 1){
+            ((SummaryExpensesFragment) mSummaryFragment).refresh();
+        }
     }
 
     @Override
@@ -86,7 +90,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                     fragment = new EventFragment();
                     break;
                 case 1:
-                    fragment = new SummaryExpensesFragment();
+                    fragment = mSummaryFragment;
                     break;
             }
 
