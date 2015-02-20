@@ -32,7 +32,6 @@ public class NewInvoiceActivity extends ActionBarActivity {
     public final String LOG_TAG = getClass().getSimpleName();
     public static final int REQUEST_CODE = 0;
     public final static String PRICE = "PRICE";
-    public final static String SERVICE = "SERVICE";
     public final static String EVENT_NAME ="EVENT_NAME";
     public final static String EVENT_ID ="EVENT_ID";
 

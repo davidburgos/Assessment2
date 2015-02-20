@@ -5,6 +5,8 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -64,10 +66,6 @@ public class Invoice {
     }
 
     public List<Payment> getPayments() {
-        ArrayList<Payment> paymentList = new ArrayList<Payment>();
-        for (Payment item : paymentList) {
-            paymentList.add(item);
-        }
-        return paymentList;
+        return new ArrayList<Payment>(mPayments);
     }
 }

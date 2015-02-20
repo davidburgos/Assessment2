@@ -123,20 +123,22 @@ public class DataBaseManager {
         List<SummaryExpensesFragment.FriendAndPrice> result = new ArrayList<>();
         try {
             Dao<Payment, Integer> paymentDao = getHelper().getPaymentDao();
+            Dao<Invoice, Integer> invoiceDao = getHelper().getInvoiceDao();
 
             if (paymentDao != null){
-                QueryBuilder<Payment, Integer> queryPaymentBuilder = paymentDao.queryBuilder();
-                queryPaymentBuilder.where().eq(Payment.FRIEND_ID, Id).and().eq(Payment.IS_PAY, Boolean.FALSE);
-                PreparedQuery<Payment> preparedQuery = queryPaymentBuilder.prepare();
-
-                List<Payment> PaymentList = paymentDao.query(preparedQuery);
-
-                if(!PaymentList.isEmpty()){
-                    for(Payment payment:PaymentList){
-                        SummaryExpensesFragment.FriendAndPrice friend = new SummaryExpensesFragment.FriendAndPrice();
-                        friend.setPrice(payment.getPriceToPay());
-                        friend.setFriend(getFriendById(payment.getInvoice().getFriendId()));
-                        result.add(friend);
+                QueryBuilder<Invoice, Integer> queryInvoiceBuilder = invoiceDao.queryBuilder();
+                queryInvoiceBuilder.where().eq(Invoice.FRIEND_ID, Id);
+                PreparedQuery<Invoice> preparedInvoiceQuery = queryInvoiceBuilder.prepare();
+                List<Invoice> invoices = invoiceDao.query(preparedInvoiceQuery);
+                for(Invoice invoice : invoices){
+                    List<Payment> payments = invoice.getPayments();
+                    for(Payment payment : payments){
+                        if(!payment.isPay()) {
+                            SummaryExpensesFragment.FriendAndPrice friend = new SummaryExpensesFragment.FriendAndPrice();
+                            friend.setPrice(payment.getPriceToPay());
+                            friend.setFriend(getFriendById(payment.getFriendId()));
+                            result.add(friend);
+                        }
                     }
                 }
             }
@@ -253,5 +255,7 @@ public class DataBaseManager {
         }
         return  friendList;
     }
+
+
 
 }
