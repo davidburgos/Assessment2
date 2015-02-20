@@ -160,8 +160,13 @@ public class SummaryExpensesFragment extends Fragment
 
                 FriendAndPrice friend = (FriendAndPrice)getChild(i, i1);
                 if(friend != null){
-                    textViewTitle.setText(friend.getFriend().getName());
-                    textViewSubTitle.setText(String.format(getString(R.string.text_view_amount),friend.getPrice()));
+                    if (friend.getFriend() != null) {
+                        textViewTitle.setText(friend.getFriend().getName());
+                        textViewSubTitle.setText(String.format(getString(R.string.text_view_amount),friend.getPrice()));
+                    }else{
+                        textViewTitle.setText("<empty>");
+                        textViewSubTitle.setText("<empty>");
+                    }
                 }
 
                 return convertView;
