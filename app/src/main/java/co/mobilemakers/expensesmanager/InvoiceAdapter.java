@@ -48,15 +48,15 @@ public class InvoiceAdapter extends ArrayAdapter<Invoice> {
         if (rowView != null) {
             TextView text_view_title = (TextView) rowView.findViewById(R.id.text_view_thing_to_pay);
             text_view_title.setText(mInvoices.get(position).getName());
-
-            //TODO get the name from the table with the id
             TextView text_view_friend = (TextView) rowView.findViewById(R.id.text_view_friend_who_pay);
-            //text_view_friend.setText(mInvoices.get(position).getFriendId());
-            text_view_friend.setText("Who paid");
+            int friendId = mInvoices.get(position).getFriendId();
+            DataBaseManager.init(getContext());
+            Friend friend = DataBaseManager.getInstance().getFriendById(friendId);
+            text_view_friend.setText(friend.getName() + " paid $" + mInvoices.get(position).getPrice());
 
             //TODO get how many people are in the event to divide the price
             TextView text_view_total = (TextView) rowView.findViewById(R.id.text_view_you_owe);
-            text_view_total.setText(Integer.toString(mInvoices.get(position).getPrice()));
+            text_view_total.setText("Divide total");
             total += 1000;
         }
     }

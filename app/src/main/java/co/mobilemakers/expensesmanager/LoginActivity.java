@@ -35,10 +35,11 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.List;
 
 public class LoginActivity extends Activity {
 
-    private static final String USERI_ID = "USER_ID";
+    private static final String USER_ID = "USER_ID";
     private static final String LOG_TAG = LoginActivity.class.getSimpleName();
 
     Bitmap mUserAvatar;
@@ -96,6 +97,7 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        populateFriendsTable();
         user = new User();
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 
@@ -121,6 +123,28 @@ public class LoginActivity extends Activity {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    private void populateFriendsTable() {
+        DataBaseManager.init(this);
+        List<Friend> friends= DataBaseManager.getInstance().getAllFriends();
+        if(friends.size()<=0) {
+            Friend friend = new Friend();
+            friend.setName("david.burgos");
+            friend.setEmail("david.burgos");
+            friend.setPassword("123456");
+            Friend friend2 = new Friend();
+            friend2.setName("juan.ramirez");
+            friend2.setEmail("juanramirez83");
+            friend2.setPassword("123456");
+            Friend friend3 = new Friend();
+            friend3.setName("diana_perez");
+            friend3.setEmail("diana_perez");
+            friend3.setPassword("123456");
+            DataBaseManager.getInstance().addFriend(friend);
+            DataBaseManager.getInstance().addFriend(friend2);
+            DataBaseManager.getInstance().addFriend(friend3);
+        }
     }
 
     public void attemptLogin() {
@@ -360,7 +384,8 @@ public class LoginActivity extends Activity {
                         String avatarURL = reposJsonObject.getString(ABOUT_ME_IMAGE);
 
                         DataBaseManager.init(getBaseContext());
-                        Friend userLogged = DataBaseManager.getInstance().getFriendById(reposJsonObject.getString(USERNAME));
+                        String userName = reposJsonObject.getString(USERNAME);
+                        Friend userLogged = DataBaseManager.getInstance().getFriendById(userName);
 
                         if(userLogged != null){
                             user.setFriend(userLogged);
@@ -396,7 +421,7 @@ public class LoginActivity extends Activity {
             switch (success){
                 case 200:
                     Intent mainActivity = new Intent(getBaseContext(),MainActivity.class);
-                    mainActivity.putExtra(USERI_ID,mEmailView.getText().toString());
+                    mainActivity.putExtra(USER_ID,mEmailView.getText().toString());
                     startActivity(mainActivity);
                     finish();
                     break;

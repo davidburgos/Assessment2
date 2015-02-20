@@ -47,7 +47,6 @@ public class FriendsFragment extends ListFragment {
                 Intent intent = new Intent();
                 String friendName = (String)parent.getItemAtPosition(position);
                 intent.putExtra(FRIEND_NAME, friendName);
-                intent.putExtra(FRIEND_ID,id);
                 Activity activity = getActivity();
                 activity.setResult(Activity.RESULT_OK,intent);
                 activity.finish();

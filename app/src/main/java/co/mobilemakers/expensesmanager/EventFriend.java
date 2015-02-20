@@ -18,15 +18,16 @@ public class EventFriend {
     private Friend mFriend;
 
     @DatabaseField(foreign = true,columnName = EVENT)
-    private Event mEevent;
+    private Event mEvent;
 
     public EventFriend(){}
 
     public EventFriend(Event event,Friend friend){
-        this.mEevent =event;
+        this.mEvent =event;
         this.mFriend = friend;
     }
 
-
-
+    public int getId() {
+        return _id;
+    }
 }

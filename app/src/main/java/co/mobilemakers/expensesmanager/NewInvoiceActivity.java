@@ -49,30 +49,44 @@ public class NewInvoiceActivity extends ActionBarActivity {
         eventId = getIntent().getExtras().getInt(EVENT_ID);
         customizeActionBar(eventName);
         wireUpViewElements();
+        prepareAddInvoiceButton();
+        checkFieldsForEmptyValues();
+    }
+
+    private void prepareAddInvoiceButton() {
         mButtonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DataBaseManager.init(getBaseContext());
-                Invoice invoice = addInvoiceToDB();
-
-                Payment payment1 = new Payment(invoice,1,123,false);
-                DataBaseManager.getInstance().addPayment(payment1);
-                Payment payment2 = new Payment(invoice,2,345,false);
-                DataBaseManager.getInstance().addPayment(payment2);
-                Intent intent = new Intent();
-                intent.putExtra(PRICE,invoice.getPrice());
-                intent.putExtra(SERVICE ,invoice.getName());
-                setResult(Activity.RESULT_OK, intent);
+                Friend friend = LoginActivity.user.getFriend();
+                int friendId = friend.getId();
+                int price = Integer.parseInt(mPrice.getText().toString());
+                Invoice invoice = addInvoiceToDB(friendId, price);
+                List<Friend> mFriendsEvent = DataBaseManager.getInstance().getFriendsByEventId(eventId);
+                createPaymentsDB(friendId, price, invoice, mFriendsEvent);
+                setResult(Activity.RESULT_OK);
                 finish();
             }
         });
-        checkFieldsForEmptyValues();
     }
 
-    private Invoice addInvoiceToDB() {
+    private void createPaymentsDB(int friendId, int price, Invoice invoice, List<Friend> friendsEvent) {
+        int priceToPay = price/friendsEvent.size();
+        Payment payment;
+        for(Friend fd : friendsEvent){
+            if(fd.getId() != friendId){
+                payment = new Payment(invoice,fd.getId(),priceToPay,false);
+                DataBaseManager.getInstance().addPayment(payment);
+            }
+        }
+    }
+
+    private Invoice addInvoiceToDB(int friendId, int price) {
         Invoice invoice = new Invoice();
         invoice.setName(mService.getText().toString());
-        invoice.setPrice(Integer.parseInt(mPrice.getText().toString()));
+        invoice.setPrice(price);
+        invoice.setEventId(eventId);
+        invoice.setFriendId(friendId);
         DataBaseManager.getInstance().addInvoice(invoice);
         return invoice;
     }

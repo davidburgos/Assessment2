@@ -71,10 +71,9 @@ public class CreateEventFragment extends ListFragment {
         event.setName(mEditTextEventName.getText().toString());
         event.setDescription(mEditTextEventDescription.getText().toString());
         DataBaseManager.getInstance().addEvent(event);
-        for(int i = 0; i<mFriendsId.size();i++)
+        for(int i = 0; i<mFriends.size();i++)
         {
-            int id = Integer.parseInt(mFriendsId.get(i));
-            Friend friend = DataBaseManager.getInstance().getFriendById(id+1);
+            Friend friend = DataBaseManager.getInstance().getFriendById(mFriends.get(i));
             DataBaseManager.getInstance().addEventFriend(new EventFriend(event,friend));
         }
     }
@@ -107,9 +106,7 @@ public class CreateEventFragment extends ListFragment {
         if(resultCode == getActivity().RESULT_OK){
             if(requestCode == REQUEST_CODE_FRIENDS){
                 String friendName = (String)data.getExtras().get(FriendsFragment.FRIEND_NAME);
-                Long  friendId = data.getExtras().getLong(FriendsFragment.FRIEND_ID);
                 mFriends.add(friendName);
-                mFriendsId.add(Long.toString(friendId));
                 mAdapterFriends.notifyDataSetChanged();
             }
         }

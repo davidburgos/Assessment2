@@ -44,7 +44,7 @@ public class EventDescriptionFragment extends ListFragment {
         eventName = (String)getActivity().getIntent().getExtras().get(EventFragment.EVENT_NAME);
         eventId = getActivity().getIntent().getExtras().getInt(EventFragment.EVENT_ID);
         //TODO total all invoices
- /*       TextView textViewTotal = (TextView)rootView.findViewById(R.id.text_view_sum_invoices);
+ /*     TextView textViewTotal = (TextView)rootView.findViewById(R.id.text_view_sum_invoices);
         Log.d("total->", Integer.toString(mAdapter.total));
         textViewTotal.setText("Total Invoices: $"+Integer.toString(mAdapter.total));*/
         return rootView;
@@ -54,10 +54,7 @@ public class EventDescriptionFragment extends ListFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //TODO retrieve all the invoices from event
-        mEventInvoices = new ArrayList<>();
-        mAdapter = new InvoiceAdapter(getActivity(), mEventInvoices);
-        setListAdapter(mAdapter);
+        populateInvoices();
     }
 
     @Override
@@ -81,6 +78,14 @@ public class EventDescriptionFragment extends ListFragment {
         return handled;
     }
 
+    private void populateInvoices() {
+        mEventInvoices = new ArrayList<>();
+        DataBaseManager.init(getActivity());
+        mEventInvoices = (ArrayList)DataBaseManager.getInstance().getInvoicesByEventId(eventId);
+        mAdapter = new InvoiceAdapter(getActivity(), mEventInvoices);
+        setListAdapter(mAdapter);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -88,13 +93,7 @@ public class EventDescriptionFragment extends ListFragment {
         {
             switch (resultCode) {
                 case Activity.RESULT_OK:
-                    int price = data.getIntExtra(NewInvoiceActivity.PRICE,0);
-                    String service = data.getStringExtra(NewInvoiceActivity.SERVICE);
-                    Invoice invoice = new Invoice();
-                    invoice.setName(service);
-                    invoice.setPrice(price);
-                    //mAdapter.add(new EventDescriptionItem(service,String.format("Juan Ramirez Paid $%s",price), "You Owe $70.000"));
-                    mEventInvoices.add(invoice);
+                    populateInvoices();
                     mAdapter.notifyDataSetChanged();
                     break;
             }

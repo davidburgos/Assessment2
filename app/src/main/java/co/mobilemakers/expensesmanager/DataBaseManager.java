@@ -8,6 +8,7 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -144,6 +145,23 @@ public class DataBaseManager {
         }
     }
 
+    public List<Invoice> getInvoicesByEventId(int eventId){
+        List<Invoice> invoices = new ArrayList<>();
+        try{
+            Dao<Invoice, Integer> dao = getHelper().getInvoiceDao();
+
+            if (dao != null){
+                QueryBuilder<Invoice, Integer> queryBuilder = dao.queryBuilder();
+                queryBuilder.where().eq(Invoice.EVENT_ID, eventId);
+                PreparedQuery<Invoice> preparedQuery = queryBuilder.prepare();
+                invoices= dao.query(preparedQuery);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return invoices;
+    }
+
     public ForeignCollection<Payment> getEmptyForeignCollection()
     {
         ForeignCollection<Payment> payments = null;
@@ -153,6 +171,32 @@ public class DataBaseManager {
             e.printStackTrace();
         }
         return payments;
+    }
+
+    public List<Friend> getFriendsByEventId(int eventId)
+    {
+        List<Friend> friendList = new ArrayList<>();
+        Dao<EventFriend, Integer> dao = getHelper().getEventFriendDao();
+        Dao<Friend, Integer> dao2 = getHelper().getFriendDao();
+
+        try {
+            if (dao != null){
+                QueryBuilder<EventFriend, Integer> queryBuilder = dao.queryBuilder();
+                queryBuilder.where().eq(EventFriend.EVENT, eventId);
+                PreparedQuery<EventFriend> preparedQuery = queryBuilder.prepare();
+                List<EventFriend> eventFriendList = dao.query(preparedQuery);
+                if(!eventFriendList.isEmpty()){
+                    for(EventFriend ev : eventFriendList) {
+                        friendList.add(dao2.queryForId(ev.getId()));
+                    }
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return  friendList;
     }
 
 }
