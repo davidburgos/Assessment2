@@ -1,6 +1,7 @@
 package co.mobilemakers.expensesmanager;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,16 +11,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class EventFragment extends ListFragment {
 
     public final static Integer REQUEST_CODE_CREATE_EVENT = 1;
-    public final static Integer REQUEST_CODE_EVENT = 2;
     public final static String EVENT_NAME = "EVENT_NAME";
     public final static String EVENT_ID = "EVENT_ID";
     private final static String LOG_TAG = EventFragment.class.getSimpleName();
@@ -54,9 +52,9 @@ public class EventFragment extends ListFragment {
         DataBaseManager.init(getActivity());
         mEvents = (ArrayList)DataBaseManager.getInstance().getAllEvents();
         mAdapterEvents = new EventAdapter(getActivity(), mEvents);
+        setEmptyText(getString(R.string.text_view_empty_event_list));
         setListAdapter(mAdapterEvents);
     }
-
 
     private void addItemClickListener() {
         getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -86,7 +84,7 @@ public class EventFragment extends ListFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == getActivity().RESULT_OK){
+        if(resultCode == Activity.RESULT_OK){
             if(requestCode == REQUEST_CODE_CREATE_EVENT){
                 populateEvents();
                 mAdapterEvents.notifyDataSetChanged();

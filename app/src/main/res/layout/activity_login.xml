@@ -5,8 +5,7 @@
               android:gravity="center_horizontal"
               android:orientation="vertical"
               tools:context=".LoginActivity"
-              android:paddingTop="100dp"
-    >
+              android:paddingTop="100dp">
 
     <!-- Login progress -->
 
@@ -21,10 +20,10 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="107dp"
-        android:id="@+id/imageView"
+        android:id="@+id/imageViewLogo"
         android:adjustViewBounds="false"
         android:cropToPadding="false"
-        android:src="@drawable/aboutme_logo"/>
+        android:src="@drawable/ic_expenses"/>
 
     <LinearLayout
         android:orientation="vertical"
@@ -38,8 +37,7 @@
         <ScrollView
             android:id="@+id/login_form"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:id="@+id/email_login_form"
@@ -67,6 +65,43 @@
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true"/>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="@string/text_view_title_login_with"
+                        android:id="@+id/textView"
+                        android:gravity="center_horizontal"/>
+
+                    <RadioGroup
+                        android:layout_width="fill_parent"
+                        android:id="@+id/radio_group_login"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_horizontal">
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/app_name"
+                            android:id="@+id/radio_button_expenses_manager"
+                            android:layout_weight="1"
+                            android:checked="true"/>
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/radio_button_text_aboutme"
+                            android:id="@+id/radio_button_aboutme"
+                            android:layout_weight="1"/>
+                    </RadioGroup>
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/email_sign_in_button"
@@ -81,6 +116,7 @@
         </ScrollView>
 
     </LinearLayout>
+
 
 </LinearLayout>
 

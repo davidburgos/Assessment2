@@ -2,11 +2,13 @@ package co.mobilemakers.expensesmanager;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
