@@ -11,10 +11,18 @@ public class EventFriend {
     public final static String FRIEND ="FRIEND";
     public final static String EVENT = "EVENT";
 
+    public int getId() {
+        return _id;
+    }
+
     @DatabaseField(generatedId = true,columnName = ID)
     private int _id;
 
-    @DatabaseField(foreign = true,columnName = FRIEND)
+    public Friend getmFriend() {
+        return mFriend;
+    }
+
+    @DatabaseField(foreign = true,foreignAutoRefresh = true,columnName = FRIEND)
     private Friend mFriend;
 
     @DatabaseField(foreign = true,columnName = EVENT)
@@ -27,9 +35,6 @@ public class EventFriend {
         this.mFriend = friend;
     }
 
-    public Friend getFriend() {
-        return mFriend;
-    }
 
     public void setFriend(Friend friend) {
         mFriend = friend;
