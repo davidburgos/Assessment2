@@ -170,7 +170,7 @@ public class LoginActivity extends Activity {
             friend.setEmail("david.burgos");
             friend.setPassword("123456");
             Friend friend2 = new Friend();
-            friend2.setName("juan.ramirez");
+            friend2.setName("juanramirez83");
             friend2.setEmail("juanramirez83");
             friend2.setPassword("123456");
             Friend friend3 = new Friend();

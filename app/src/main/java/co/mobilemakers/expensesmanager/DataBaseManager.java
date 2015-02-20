@@ -187,7 +187,7 @@ public class DataBaseManager {
                 List<EventFriend> eventFriendList = dao.query(preparedQuery);
                 if(!eventFriendList.isEmpty()){
                     for(EventFriend ev : eventFriendList) {
-                        friendList.add(dao2.queryForId(ev.getId()));
+                        friendList.add(dao2.queryForId(ev.getFriend().getId()));
                     }
                 }
             }

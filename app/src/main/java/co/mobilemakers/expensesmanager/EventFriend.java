@@ -27,6 +27,22 @@ public class EventFriend {
         this.mFriend = friend;
     }
 
+    public Friend getFriend() {
+        return mFriend;
+    }
+
+    public void setFriend(Friend friend) {
+        mFriend = friend;
+    }
+
+    public Event getEvent() {
+        return mEvent;
+    }
+
+    public void setEvent(Event event) {
+        mEvent = event;
+    }
+
     public int getId() {
         return _id;
     }

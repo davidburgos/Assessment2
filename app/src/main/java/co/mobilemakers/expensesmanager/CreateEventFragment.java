@@ -74,7 +74,8 @@ public class CreateEventFragment extends ListFragment {
         for(int i = 0; i<mFriends.size();i++)
         {
             Friend friend = DataBaseManager.getInstance().getFriendById(mFriends.get(i));
-            DataBaseManager.getInstance().addEventFriend(new EventFriend(event,friend));
+            EventFriend eventFriend = new EventFriend(event, friend);
+            DataBaseManager.getInstance().addEventFriend(eventFriend);
         }
     }
 
