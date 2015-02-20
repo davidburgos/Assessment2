@@ -106,10 +106,20 @@ public class DataBaseManager {
 
                 if(!PaymentList.isEmpty()){
                     for(Payment payment:PaymentList){
-                        SummaryExpensesFragment.FriendAndPrice friend = new SummaryExpensesFragment.FriendAndPrice();
-                        friend.setPrice(payment.getPriceToPay());
-                        friend.setFriend(getFriendById(payment.getInvoice().getFriendId()));
-                        result.add(friend);
+                        int id = payment.getFriendId();
+                        boolean containsFriend = false;
+                        for(SummaryExpensesFragment.FriendAndPrice friend : result){
+                            if(friend.getFriend().getId() == id){
+                                friend.setPrice(friend.getPrice() + payment.getPriceToPay());
+                                containsFriend = true;
+                            }
+                        }
+                        if(!containsFriend) {
+                            SummaryExpensesFragment.FriendAndPrice friend = new SummaryExpensesFragment.FriendAndPrice();
+                            friend.setPrice(payment.getPriceToPay());
+                            friend.setFriend(getFriendById(payment.getInvoice().getFriendId()));
+                            result.add(friend);
+                        }
                     }
                 }
             }
