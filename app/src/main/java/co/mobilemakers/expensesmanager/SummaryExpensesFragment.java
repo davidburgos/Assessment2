@@ -43,14 +43,21 @@ public class SummaryExpensesFragment extends Fragment
         }
 
         private Context mContext;
+        private SavedTabsListAdapter mSavedTabsListAdapter;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             mContext = getActivity().getBaseContext();
             View v = inflater.inflate(R.layout.fragment_summary_expenses, null);
             ExpandableListView elv = (ExpandableListView) v.findViewById(R.id.list);
-            elv.setAdapter(new SavedTabsListAdapter());
+            mSavedTabsListAdapter = new SavedTabsListAdapter();
+            elv.setAdapter(mSavedTabsListAdapter);
             return v;
+        }
+
+        public void refresh(){
+            mSavedTabsListAdapter.calculateInfo();
+            mSavedTabsListAdapter.notifyDataSetChanged();
         }
 
         public class SavedTabsListAdapter extends BaseExpandableListAdapter {
@@ -61,11 +68,19 @@ public class SummaryExpensesFragment extends Fragment
             private List<FriendAndPrice> FriendsIOwe  = new ArrayList<>();
             private List<FriendAndPrice> FriendsOweMe = new ArrayList<>();
 
-            private int mAmountIOwe = 0, mAmountOwedToMe = 0;
+            private int mAmountIOwe,
+                    mAmountOwedToMe;
 
             public SavedTabsListAdapter()
             {
                 inflater = LayoutInflater.from(mContext);
+                calculateInfo();
+            }
+
+            private void calculateInfo() {
+
+                mAmountIOwe     = 0;
+                mAmountOwedToMe = 0;
 
                 DataBaseManager.init(getActivity());
                 DataBaseManager dataBaseManager = DataBaseManager.getInstance();
@@ -83,7 +98,6 @@ public class SummaryExpensesFragment extends Fragment
                         mAmountOwedToMe += friend.getPrice();
                     }
                 }
-
             }
 
             @Override
