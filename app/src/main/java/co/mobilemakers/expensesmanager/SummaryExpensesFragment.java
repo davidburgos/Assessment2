@@ -4,7 +4,6 @@ package co.mobilemakers.expensesmanager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +74,7 @@ public class SummaryExpensesFragment extends Fragment
 
                 if(FriendsIOwe != null){
                     for(FriendAndPrice friend:FriendsIOwe){
-                        //  mAmountIOwe += friend.split(":"); //todo:calculate correct value
+                          mAmountIOwe += friend.getPrice();
                     }
                 }
 
@@ -106,10 +105,10 @@ public class SummaryExpensesFragment extends Fragment
                 Object result = null;
                 switch (i){
                     case 0:
-                        //  result = FriendsIOwe.get(i1).getName().toString();
+                        result = FriendsIOwe.get(i1);
                         break;
                     case 1:
-                        result = FriendsOweMe.get(i1).getName().toString();
+                        result = FriendsOweMe.get(i1).getName();
                         break;
                 }
                 return result;
@@ -159,8 +158,12 @@ public class SummaryExpensesFragment extends Fragment
                 TextView textViewTitle = (TextView) convertView.findViewById(R.id.text_view_child_title);
                 TextView textViewSubTitle = (TextView) convertView.findViewById(R.id.text_view_child_subtitle);
 
-                textViewTitle.setText(getChild(i, i1).toString());
-                textViewSubTitle.setText("$ 1");
+                FriendAndPrice friend = (FriendAndPrice)getChild(i, i1);
+                if(friend != null){
+                    textViewTitle.setText(friend.getFriend().getName());
+                    textViewSubTitle.setText(String.format(getString(R.string.text_view_amount),friend.getPrice()));
+                }
+
                 return convertView;
             }
 

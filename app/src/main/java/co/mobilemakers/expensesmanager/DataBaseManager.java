@@ -106,23 +106,8 @@ public class DataBaseManager {
                     for(Payment payment:PaymentList){
                         SummaryExpensesFragment.FriendAndPrice friend = new SummaryExpensesFragment.FriendAndPrice();
                         friend.setPrice(payment.getPriceToPay());
-
-
-                        Dao<Invoice, Integer> invoiceDao = getHelper().getInvoiceDao();
-
-                        if (invoiceDao != null){
-
-                            QueryBuilder<Invoice, Integer> queryInvoiceBuilder = invoiceDao.queryBuilder();
-                            queryInvoiceBuilder.where().eq(Invoice.ID, payment.getInvoice());
-                            PreparedQuery<Invoice> preparedInvoiceQuery = queryInvoiceBuilder.prepare();
-                            List<Invoice> InvoiceList = invoiceDao.query(preparedInvoiceQuery);
-
-                            if(!InvoiceList.isEmpty()){
-
-                            }
-
-                        }
-
+                        friend.setFriend(getFriendById(payment.getInvoice().getFriendId()));
+                        result.add(friend);
                     }
                 }
             }
@@ -142,8 +127,7 @@ public class DataBaseManager {
         }
     }
 
-    public List<Event> getAllEvents()
-    {
+    public List<Event> getAllEvents(){
         List<Event> eventList = null;
         try {
             eventList = getHelper().getEventDao().queryForAll();
@@ -162,7 +146,6 @@ public class DataBaseManager {
             e1.printStackTrace();
         }
     }
-
 
     public void  addEventFriend(EventFriend e){
         try {
