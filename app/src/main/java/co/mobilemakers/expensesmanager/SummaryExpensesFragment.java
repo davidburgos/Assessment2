@@ -58,8 +58,8 @@ public class SummaryExpensesFragment extends Fragment
             private LayoutInflater inflater;
             private String[] groups = { getString(R.string.text_view_title_you_owe),getString(R.string.text_view_title_owed_to_you)};
 
-            private List<FriendAndPrice> FriendsIOwe = new ArrayList<>();
-            private List<Friend> FriendsOweMe = new ArrayList<>();
+            private List<FriendAndPrice> FriendsIOwe  = new ArrayList<>();
+            private List<FriendAndPrice> FriendsOweMe = new ArrayList<>();
 
             private int mAmountIOwe = 0, mAmountOwedToMe = 0;
 
@@ -70,17 +70,17 @@ public class SummaryExpensesFragment extends Fragment
                 DataBaseManager.init(getActivity());
                 DataBaseManager dataBaseManager = DataBaseManager.getInstance();
                 FriendsIOwe  = dataBaseManager.getAllFriendsIOwe(LoginActivity.user.getFriend().getId());
-                FriendsOweMe = dataBaseManager.getAllFriends();
+                FriendsOweMe = dataBaseManager.getAllFriendsOwedMe(LoginActivity.user.getFriend().getId());
 
                 if(FriendsIOwe != null){
                     for(FriendAndPrice friend:FriendsIOwe){
-                          mAmountIOwe += friend.getPrice();
+                        mAmountIOwe += friend.getPrice();
                     }
                 }
 
                 if(FriendsOweMe != null){
-                    for(Friend friend:FriendsOweMe){
-                        mAmountOwedToMe += friend.getId(); //todo:calculate correct value
+                    for(FriendAndPrice friend:FriendsOweMe){
+                        mAmountOwedToMe += friend.getPrice();
                     }
                 }
 
@@ -108,7 +108,7 @@ public class SummaryExpensesFragment extends Fragment
                         result = FriendsIOwe.get(i1);
                         break;
                     case 1:
-                        result = FriendsOweMe.get(i1).getName();
+                        result = FriendsOweMe.get(i1);
                         break;
                 }
                 return result;

@@ -119,6 +119,35 @@ public class DataBaseManager {
         return  result;
     }
 
+    public List<SummaryExpensesFragment.FriendAndPrice> getAllFriendsOwedMe(int Id){
+        List<SummaryExpensesFragment.FriendAndPrice> result = new ArrayList<>();
+        try {
+            Dao<Payment, Integer> paymentDao = getHelper().getPaymentDao();
+
+            if (paymentDao != null){
+                QueryBuilder<Payment, Integer> queryPaymentBuilder = paymentDao.queryBuilder();
+                queryPaymentBuilder.where().eq(Payment.FRIEND_ID, Id).and().eq(Payment.IS_PAY, Boolean.FALSE);
+                PreparedQuery<Payment> preparedQuery = queryPaymentBuilder.prepare();
+
+                List<Payment> PaymentList = paymentDao.query(preparedQuery);
+
+                if(!PaymentList.isEmpty()){
+                    for(Payment payment:PaymentList){
+                        SummaryExpensesFragment.FriendAndPrice friend = new SummaryExpensesFragment.FriendAndPrice();
+                        friend.setPrice(payment.getPriceToPay());
+                        friend.setFriend(getFriendById(payment.getInvoice().getFriendId()));
+                        result.add(friend);
+                    }
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return  result;
+    }
+
     public void addFriend(Friend f) {
         try {
             getHelper().getFriendDao().create(f);
