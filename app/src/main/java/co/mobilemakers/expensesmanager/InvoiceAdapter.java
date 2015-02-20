@@ -52,8 +52,6 @@ public class InvoiceAdapter extends ArrayAdapter<Invoice> {
             int friendId = mInvoices.get(position).getFriendId();
             DataBaseManager.init(getContext());
             Friend friend = DataBaseManager.getInstance().getFriendById(friendId);
-            text_view_friend.setText(friend.getName() + " paid $" + mInvoices.get(position).getPrice());
-            //TODO get how many people are in the event to divide the price
             TextView text_view_total = (TextView) rowView.findViewById(R.id.text_view_you_owe);
             if(mInvoices.get(position).getFriendId() != LoginActivity.user.getFriend().getId()) {
                 DataBaseManager.init(getContext());

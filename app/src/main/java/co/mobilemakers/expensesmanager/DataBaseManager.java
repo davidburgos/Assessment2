@@ -136,10 +136,20 @@ public class DataBaseManager {
                     List<Payment> payments = invoice.getPayments();
                     for(Payment payment : payments){
                         if(!payment.isPay()) {
-                            SummaryExpensesFragment.FriendAndPrice friend = new SummaryExpensesFragment.FriendAndPrice();
-                            friend.setPrice(payment.getPriceToPay());
-                            friend.setFriend(getFriendById(payment.getFriendId()));
-                            result.add(friend);
+                            int id = payment.getFriendId();
+                            boolean containsFriend = false;
+                            for(SummaryExpensesFragment.FriendAndPrice friend : result){
+                                if(friend.getFriend().getId() == id){
+                                    friend.setPrice(friend.getPrice() + payment.getPriceToPay());
+                                    containsFriend = true;
+                                }
+                            }
+                            if(!containsFriend){
+                                SummaryExpensesFragment.FriendAndPrice friend = new SummaryExpensesFragment.FriendAndPrice();
+                                friend.setPrice(payment.getPriceToPay());
+                                friend.setFriend(getFriendById(payment.getFriendId()));
+                                result.add(friend);
+                            }
                         }
                     }
                 }
@@ -151,6 +161,7 @@ public class DataBaseManager {
         }
         return  result;
     }
+
 
     public void addFriend(Friend f) {
         try {
